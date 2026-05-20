@@ -3,7 +3,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { useCart } from "@/lib/cart";
 import { seoHead } from "@/lib/seo";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client-safe";
 import { toast } from "sonner";
 import { z } from "zod";
 import { X } from "lucide-react";
