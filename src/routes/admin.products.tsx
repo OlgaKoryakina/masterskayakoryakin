@@ -169,7 +169,7 @@ function Editor({ product, onClose }: { product: Product; onClose: () => void })
           </div>
 
           <div>
-            <span className="text-[11px] tracking-[0.18em] uppercase text-muted-foreground">Фото</span>
+            <span className="text-[11px] tracking-[0.18em] uppercase text-muted-foreground">Фото и видео</span>
             <div className="grid grid-cols-4 gap-2 mt-2 mb-2">
               {(p.images ?? []).map((u, i) => (
                 <div key={u + i} className="relative aspect-square bg-graphite">
@@ -177,8 +177,16 @@ function Editor({ product, onClose }: { product: Product; onClose: () => void })
                   <button type="button" onClick={() => setP({ ...p, images: p.images?.filter((_, j) => j !== i) })} className="absolute top-1 right-1 bg-background/80 p-1"><X className="w-3 h-3" /></button>
                 </div>
               ))}
+              {(p.videos ?? []).map((u, i) => (
+                <div key={u + i} className="relative aspect-square bg-graphite">
+                  <video src={u} className="w-full h-full object-cover" muted playsInline />
+                  <span className="absolute bottom-1 left-1 bg-background/80 text-[10px] px-1">VIDEO</span>
+                  <button type="button" onClick={() => setP({ ...p, videos: p.videos?.filter((_, j) => j !== i) })} className="absolute top-1 right-1 bg-background/80 p-1"><X className="w-3 h-3" /></button>
+                </div>
+              ))}
             </div>
-            <input type="file" multiple accept="image/*" onChange={upload} className="text-sm" />
+            <input type="file" multiple accept="image/*,video/*" onChange={upload} className="text-sm" />
+            <p className="text-[11px] text-muted-foreground mt-1">Поддерживаются изображения и видео. Можно выбрать несколько файлов.</p>
           </div>
 
           <div className="flex items-center gap-6">
