@@ -21,11 +21,12 @@ type Product = {
   status: "in_stock" | "made_to_order";
   price?: number | null;
   images?: string[];
+  videos?: string[];
   sort_order?: number;
   is_featured?: boolean;
 };
 
-const empty: Product = { slug: "", category: "belt", title: "", status: "made_to_order", images: [], character_tags: [], params: {}, sort_order: 0, is_featured: false };
+const empty: Product = { slug: "", category: "belt", title: "", status: "made_to_order", images: [], videos: [], character_tags: [], params: {}, sort_order: 0, is_featured: false };
 
 function ProductsAdmin() {
   const qc = useQueryClient();
