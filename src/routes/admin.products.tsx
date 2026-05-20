@@ -100,15 +100,18 @@ function Editor({ product, onClose }: { product: Product; onClose: () => void })
 
   async function upload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
-    const urls: string[] = [...(p.images ?? [])];
+    const imgs: string[] = [...(p.images ?? [])];
+    const vids: string[] = [...(p.videos ?? [])];
     for (const f of files) {
       const path = `${Date.now()}-${f.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-      const { error } = await supabase.storage.from("product-images").upload(path, f);
+      const { error } = await supabase.storage.from("product-images").upload(path, f, { contentType: f.type });
       if (error) { toast.error(error.message); continue; }
       const { data } = supabase.storage.from("product-images").getPublicUrl(path);
-      urls.push(data.publicUrl);
+      if (f.type.startsWith("video/")) vids.push(data.publicUrl);
+      else imgs.push(data.publicUrl);
     }
-    setP({ ...p, images: urls });
+    setP({ ...p, images: imgs, videos: vids });
+    e.target.value = "";
   }
 
   return (
