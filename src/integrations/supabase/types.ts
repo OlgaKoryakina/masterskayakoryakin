@@ -91,6 +91,7 @@ export type Database = {
           status: Database["public"]["Enums"]["product_status"]
           title: string
           updated_at: string
+          videos: string[]
         }
         Insert: {
           category: Database["public"]["Enums"]["product_category"]
@@ -108,6 +109,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["product_status"]
           title: string
           updated_at?: string
+          videos?: string[]
         }
         Update: {
           category?: Database["public"]["Enums"]["product_category"]
@@ -125,6 +127,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["product_status"]
           title?: string
           updated_at?: string
+          videos?: string[]
         }
         Relationships: []
       }
