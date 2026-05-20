@@ -54,18 +54,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Мастерская Корякиных — ремни и латунные пряжки ручной работы" },
-      { name: "description", content: "Авторские ремни и пряжки ручной работы.
-Натуральная кожа, ручное тиснение, собственное производство пряжек и внимание к каждой детали—без массового производства" },
+      { name: "description", content: "Авторские ремни и пряжки ручной работы. Натуральная кожа, ручное тиснение, собственное производство пряжек и внимание к каждой детали—без массового производства" },
       { name: "author", content: "Мастерская Корякиных" },
       { name: "theme-color", content: "#1a1814" },
       { property: "og:title", content: "Мастерская Корякиных — ремни и латунные пряжки ручной работы" },
-      { property: "og:description", content: "Авторские ремни и пряжки ручной работы.
-Натуральная кожа, ручное тиснение, собственное производство пряжек и внимание к каждой детали—без массового производства" },
+      { property: "og:description", content: "Авторские ремни и пряжки ручной работы. Натуральная кожа, ручное тиснение, собственное производство пряжек и внимание к каждой детали—без массового производства" },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "ru_RU" },
       { name: "twitter:title", content: "Мастерская Корякиных — ремни и латунные пряжки ручной работы" },
-      { name: "twitter:description", content: "Авторские ремни и пряжки ручной работы.
-Натуральная кожа, ручное тиснение, собственное производство пряжек и внимание к каждой детали—без массового производства" },
+      { name: "twitter:description", content: "Авторские ремни и пряжки ручной работы. Натуральная кожа, ручное тиснение, собственное производство пряжек и внимание к каждой детали—без массового производства" },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JKjc1bDcC9YKtHOrT0CZZfa2A373/social-images/social-1779280761284-IMG_20260520_153908.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JKjc1bDcC9YKtHOrT0CZZfa2A373/social-images/social-1779280761284-IMG_20260520_153908.webp" },
       { name: "twitter:card", content: "summary_large_image" },
