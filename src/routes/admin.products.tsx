@@ -21,11 +21,12 @@ type Product = {
   status: "in_stock" | "made_to_order";
   price?: number | null;
   images?: string[];
+  videos?: string[];
   sort_order?: number;
   is_featured?: boolean;
 };
 
-const empty: Product = { slug: "", category: "belt", title: "", status: "made_to_order", images: [], character_tags: [], params: {}, sort_order: 0, is_featured: false };
+const empty: Product = { slug: "", category: "belt", title: "", status: "made_to_order", images: [], videos: [], character_tags: [], params: {}, sort_order: 0, is_featured: false };
 
 function ProductsAdmin() {
   const qc = useQueryClient();
@@ -99,15 +100,18 @@ function Editor({ product, onClose }: { product: Product; onClose: () => void })
 
   async function upload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
-    const urls: string[] = [...(p.images ?? [])];
+    const imgs: string[] = [...(p.images ?? [])];
+    const vids: string[] = [...(p.videos ?? [])];
     for (const f of files) {
       const path = `${Date.now()}-${f.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-      const { error } = await supabase.storage.from("product-images").upload(path, f);
+      const { error } = await supabase.storage.from("product-images").upload(path, f, { contentType: f.type });
       if (error) { toast.error(error.message); continue; }
       const { data } = supabase.storage.from("product-images").getPublicUrl(path);
-      urls.push(data.publicUrl);
+      if (f.type.startsWith("video/")) vids.push(data.publicUrl);
+      else imgs.push(data.publicUrl);
     }
-    setP({ ...p, images: urls });
+    setP({ ...p, images: imgs, videos: vids });
+    e.target.value = "";
   }
 
   return (
@@ -165,7 +169,7 @@ function Editor({ product, onClose }: { product: Product; onClose: () => void })
           </div>
 
           <div>
-            <span className="text-[11px] tracking-[0.18em] uppercase text-muted-foreground">Фото</span>
+            <span className="text-[11px] tracking-[0.18em] uppercase text-muted-foreground">Фото и видео</span>
             <div className="grid grid-cols-4 gap-2 mt-2 mb-2">
               {(p.images ?? []).map((u, i) => (
                 <div key={u + i} className="relative aspect-square bg-graphite">
@@ -173,8 +177,16 @@ function Editor({ product, onClose }: { product: Product; onClose: () => void })
                   <button type="button" onClick={() => setP({ ...p, images: p.images?.filter((_, j) => j !== i) })} className="absolute top-1 right-1 bg-background/80 p-1"><X className="w-3 h-3" /></button>
                 </div>
               ))}
+              {(p.videos ?? []).map((u, i) => (
+                <div key={u + i} className="relative aspect-square bg-graphite">
+                  <video src={u} className="w-full h-full object-cover" muted playsInline />
+                  <span className="absolute bottom-1 left-1 bg-background/80 text-[10px] px-1">VIDEO</span>
+                  <button type="button" onClick={() => setP({ ...p, videos: p.videos?.filter((_, j) => j !== i) })} className="absolute top-1 right-1 bg-background/80 p-1"><X className="w-3 h-3" /></button>
+                </div>
+              ))}
             </div>
-            <input type="file" multiple accept="image/*" onChange={upload} className="text-sm" />
+            <input type="file" multiple accept="image/*,video/*" onChange={upload} className="text-sm" />
+            <p className="text-[11px] text-muted-foreground mt-1">Поддерживаются изображения и видео. Можно выбрать несколько файлов.</p>
           </div>
 
           <div className="flex items-center gap-6">
