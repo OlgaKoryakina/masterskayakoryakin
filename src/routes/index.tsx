@@ -47,7 +47,7 @@ function Index() {
               {heroData.subtitle}
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link to="/catalog" className="group inline-flex items-center gap-3 border border-brass px-7 py-3.5 text-[12px] uppercase tracking-[0.22em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors">
+              <Link to="/catalog" className="group inline-flex items-center gap-3 border-brass px-7 py-3.5 uppercase tracking-[0.22em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-4xl border-2 shadow-none opacity-85">
                 {heroData.cta}
                 <span className="inline-block w-6 h-px bg-current transition-all group-hover:w-9" />
               </Link>
