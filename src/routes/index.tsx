@@ -187,7 +187,7 @@ function Index() {
       <section className="container-x py-32 md:py-44 text-center">
         <h2 className="font-serif text-5xl md:text-7xl text-bone text-balance">Изделия, которые стареют красиво.</h2>
         <div className="mt-10">
-          <Link to="/catalog" className="inline-flex items-center gap-3 border border-brass px-9 py-4 text-[12px] uppercase tracking-[0.25em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors">
+          <Link to="/catalog" className="inline-flex items-center gap-3 border-brass px-9 py-4 uppercase tracking-[0.25em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-4xl border rounded-none opacity-85">
             Открыть коллекцию
           </Link>
         </div>
