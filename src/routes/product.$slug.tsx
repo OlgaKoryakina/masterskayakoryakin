@@ -85,8 +85,15 @@ function ProductPage() {
       <section className="container-x grid lg:grid-cols-2 gap-12 lg:gap-20 pb-24">
         <div>
           <div className="aspect-[4/5] overflow-hidden bg-graphite mb-4">
-            {product.images?.[active] ? (
-              <img src={product.images[active]} alt={product.title} className="w-full h-full object-cover" />
+            {images[active] ? (
+              <button
+                type="button"
+                onClick={() => setLightboxOpen(true)}
+                className="w-full h-full block cursor-zoom-in"
+                aria-label="Открыть фото на весь экран"
+              >
+                <img src={images[active]} alt={product.title} className="w-full h-full object-cover" />
+              </button>
             ) : (
               <div className="w-full h-full bg-muted" />
             )}
