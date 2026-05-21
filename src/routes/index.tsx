@@ -133,7 +133,7 @@ function Index() {
 
           <div className="mt-16 overflow-x-auto -mx-6 px-6 scrollbar-thin">
             <ol className="flex gap-6 md:gap-10 min-w-max">
-              {["Эскиз","Резка кожи","Тиснение","Литьё латуни","Шлифовка","Патинирование","Полировка","Готово"].map((step, i) => (
+              {["Эскиз","Резка кожи","Тиснение","Дизайн пряжки","Шлифовка","Патинирование","Полировка","Готово"].map((step, i) => (
                 <li key={step} className="flex flex-col gap-3 min-w-[180px]">
                   <div className="text-[10px] tracking-[0.25em] uppercase text-brass">0{i + 1}</div>
                   <div className="font-serif text-2xl">{step}</div>
