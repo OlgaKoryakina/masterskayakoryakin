@@ -11,14 +11,14 @@ export function getEmbedUrl(url: string): string | null {
   // Already an embed link
   if (/video_ext\.php/i.test(url)) return url;
 
-  // Try formats:
-  //   vk.com/video-123_456
-  //   vk.com/video123_456
-  //   vk.com/video?z=video-123_456%2F...
-  //   vkvideo.ru/video-123_456
-  let m = url.match(/video(-?\d+)_(\d+)/i);
+  // Поддерживаем форматы:
+  //   vk.com/video-123_456, vk.com/video123_456
+  //   vk.com/clip-123_456,  vk.com/clip123_456
+  //   vk.com/video?z=video-123_456%2F..., z=clip-123_456
+  //   vkvideo.ru/video-..., vkvideo.ru/clip-...
+  let m = url.match(/(?:video|clip)(-?\d+)_(\d+)/i);
   if (!m) {
-    const z = url.match(/[?&]z=video(-?\d+)_(\d+)/i);
+    const z = url.match(/[?&]z=(?:video|clip)(-?\d+)_(\d+)/i);
     if (z) m = z as unknown as RegExpMatchArray;
   }
   if (!m) return null;
