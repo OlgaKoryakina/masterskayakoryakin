@@ -38,6 +38,21 @@ function ProductPage() {
     },
   });
 
+  const images: string[] = (product?.images as string[] | undefined) ?? [];
+  const hasMany = images.length > 1;
+  const showPrev = () => setActive((i) => (i - 1 + images.length) % images.length);
+  const showNext = () => setActive((i) => (i + 1) % images.length);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" && hasMany) showPrev();
+      else if (e.key === "ArrowRight" && hasMany) showNext();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxOpen, hasMany, images.length]);
+
   if (isLoading) return <SiteLayout><div className="container-x py-32"><div className="h-96 bg-muted animate-pulse" /></div></SiteLayout>;
   if (!product) return (
     <SiteLayout>
@@ -61,20 +76,7 @@ function ProductPage() {
 
   const params = (product.params as Record<string, string>) ?? {};
   const tags = product.character_tags ?? [];
-  const images: string[] = product.images ?? [];
-  const hasMany = images.length > 1;
-  const showPrev = () => setActive((i) => (i - 1 + images.length) % images.length);
-  const showNext = () => setActive((i) => (i + 1) % images.length);
 
-  useEffect(() => {
-    if (!lightboxOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft" && hasMany) showPrev();
-      else if (e.key === "ArrowRight" && hasMany) showNext();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightboxOpen, hasMany, images.length]);
 
   return (
     <SiteLayout>
