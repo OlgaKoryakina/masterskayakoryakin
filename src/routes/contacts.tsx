@@ -23,7 +23,7 @@ function ContactsPage() {
         <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-4">Контакты</div>
         <h1 className="font-serif text-5xl md:text-7xl mb-12">Поговорим</h1>
         <dl className="space-y-8 text-lg">
-          {data?.phone && (<Row label="Телефон"><a href={`tel:${data.phone.replace(/[^+\d]/g, "")}`} className="hover:text-brass">{data.phone}</a></Row>)}
+          {data?.phone && (<Row label="ВКонтакте"><a href={`tel:${data.phone.replace(/[^+\d]/g, "")}`} className="hover:text-brass">{data.phone}</a></Row>)}
           {data?.telegram && (<Row label="Telegram"><a href={`https://t.me/${String(data.telegram).replace(/^@/, "")}`} className="hover:text-brass">{data.telegram}</a></Row>)}
           {data?.email && (<Row label="Почта"><a href={`mailto:${data.email}`} className="hover:text-brass">{data.email}</a></Row>)}
           {data?.city && (<Row label="Где мы"><span>{data.city}</span></Row>)}
