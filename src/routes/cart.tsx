@@ -80,7 +80,7 @@ function CartPage() {
   return (
     <SiteLayout>
       <section className="container-x py-16 md:py-24">
-        <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-3">Заявка</div>
+        <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">Заявка</div>
         <h1 className="font-serif text-5xl md:text-6xl mb-3">Корзина</h1>
         <p className="text-muted-foreground max-w-xl">Без онлайн-оплаты. Соберите интересующие изделия и оставьте контакты — мастер свяжется с вами лично.</p>
       </section>

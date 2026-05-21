@@ -79,7 +79,7 @@ function Index() {
         <div className="container-x">
           <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
             <div>
-              <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-3">Избранное</div>
+              <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">Избранное</div>
               <h2 className="font-serif text-4xl md:text-5xl">Лучшие работы сезона</h2>
             </div>
             <Link to="/catalog" className="text-[12px] uppercase tracking-[0.22em] text-brass hover:underline">Весь каталог →</Link>
@@ -120,7 +120,7 @@ function Index() {
         <div className="container-x">
           <div className="grid md:grid-cols-12 gap-12 items-center">
             <div className="md:col-span-5">
-              <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-3">Процесс</div>
+              <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">Процесс</div>
               <h2 className="font-serif text-4xl md:text-5xl mb-6">От эскиза до изделия — несколько недель ручной работы</h2>
               <p className="text-muted-foreground leading-relaxed">
                 Эскиз, выкройка, резка, тиснение, литьё латуни, шлифовка, патинирование, полировка, прошивка, финишная обработка кромки. Каждый этап — вручную.
@@ -166,7 +166,7 @@ function Index() {
 
       {/* TESTIMONIALS */}
       <section className="container-x py-32">
-        <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-3">— Что говорят</div>
+        <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85"> Что говорят</div>
         <div className="grid md:grid-cols-3 gap-12 mt-12">
           {[
             { q: "Это первый ремень в моей жизни, который хочется носить вечно. Кожа становится только красивее.", a: "Андрей К., Москва" },

@@ -85,7 +85,7 @@ function ProductPage() {
         </div>
 
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-3">
+          <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">
             {product.category === "belt" ? "Ремень" : "Пряжка"}
           </div>
           <h1 className="font-serif text-4xl md:text-5xl mb-5">{product.title}</h1>
