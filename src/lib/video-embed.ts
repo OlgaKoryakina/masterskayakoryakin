@@ -1,20 +1,28 @@
-export type VideoKind = "file" | "youtube" | "vimeo";
+export type VideoKind = "file" | "vk";
 
 export function detectVideoKind(url: string): VideoKind {
-  if (/youtube\.com|youtu\.be/i.test(url)) return "youtube";
-  if (/vimeo\.com/i.test(url)) return "vimeo";
+  if (/vk\.com|vkvideo\.ru|vk\.ru/i.test(url)) return "vk";
   return "file";
 }
 
 export function getEmbedUrl(url: string): string | null {
-  const kind = detectVideoKind(url);
-  if (kind === "youtube") {
-    const m = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{6,})/);
-    return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+  if (detectVideoKind(url) !== "vk") return null;
+
+  // Already an embed link
+  if (/video_ext\.php/i.test(url)) return url;
+
+  // Try formats:
+  //   vk.com/video-123_456
+  //   vk.com/video123_456
+  //   vk.com/video?z=video-123_456%2F...
+  //   vkvideo.ru/video-123_456
+  let m = url.match(/video(-?\d+)_(\d+)/i);
+  if (!m) {
+    const z = url.match(/[?&]z=video(-?\d+)_(\d+)/i);
+    if (z) m = z as unknown as RegExpMatchArray;
   }
-  if (kind === "vimeo") {
-    const m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-    return m ? `https://player.vimeo.com/video/${m[1]}` : null;
-  }
-  return null;
+  if (!m) return null;
+  const oid = m[1];
+  const id = m[2];
+  return `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2`;
 }
