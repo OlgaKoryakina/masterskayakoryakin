@@ -39,7 +39,7 @@ function Index() {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/30" />
         <div className="container-x relative pb-20 md:pb-32 pt-32">
           <div className="max-w-3xl">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-6">Мастерская Корякиных · с 2014</div>
+            <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-6">Мастерская Корякиных · с 2026</div>
             <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-bone text-balance">
               {heroData.title}
             </h1>
