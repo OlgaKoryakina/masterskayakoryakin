@@ -5,8 +5,10 @@ import { supabase } from "@/integrations/supabase/client-safe";
 import { seoHead } from "@/lib/seo";
 import { useCart } from "@/lib/cart";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { detectVideoKind, getEmbedUrl } from "@/lib/video-embed";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 export const Route = createFileRoute("/product/$slug")({
   head: ({ params }) => seoHead({ title: params.slug, path: `/product/${params.slug}` }),
@@ -17,6 +19,7 @@ function ProductPage() {
   const { slug } = useParams({ from: "/product/$slug" });
   const { add } = useCart();
   const [active, setActive] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["product", slug],
@@ -58,6 +61,20 @@ function ProductPage() {
 
   const params = (product.params as Record<string, string>) ?? {};
   const tags = product.character_tags ?? [];
+  const images: string[] = product.images ?? [];
+  const hasMany = images.length > 1;
+  const showPrev = () => setActive((i) => (i - 1 + images.length) % images.length);
+  const showNext = () => setActive((i) => (i + 1) % images.length);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" && hasMany) showPrev();
+      else if (e.key === "ArrowRight" && hasMany) showNext();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxOpen, hasMany, images.length]);
 
   return (
     <SiteLayout>
@@ -68,8 +85,15 @@ function ProductPage() {
       <section className="container-x grid lg:grid-cols-2 gap-12 lg:gap-20 pb-24">
         <div>
           <div className="aspect-[4/5] overflow-hidden bg-graphite mb-4">
-            {product.images?.[active] ? (
-              <img src={product.images[active]} alt={product.title} className="w-full h-full object-cover" />
+            {images[active] ? (
+              <button
+                type="button"
+                onClick={() => setLightboxOpen(true)}
+                className="w-full h-full block cursor-zoom-in"
+                aria-label="Открыть фото на весь экран"
+              >
+                <img src={images[active]} alt={product.title} className="w-full h-full object-cover" />
+              </button>
             ) : (
               <div className="w-full h-full bg-muted" />
             )}
@@ -171,6 +195,51 @@ function ProductPage() {
           </div>
         </section>
       )}
+
+      <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+        <DialogContent
+          className="max-w-none w-screen h-screen p-0 border-0 bg-background/95 rounded-none sm:rounded-none flex items-center justify-center [&>button]:hidden"
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(false)}
+            className="absolute top-4 right-4 z-50 p-2 text-bone/80 hover:text-brass transition-colors"
+            aria-label="Закрыть"
+          >
+            <X className="w-7 h-7" />
+          </button>
+          {hasMany && (
+            <>
+              <button
+                type="button"
+                onClick={showPrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-2 text-bone/80 hover:text-brass transition-colors"
+                aria-label="Предыдущее фото"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+              <button
+                type="button"
+                onClick={showNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-2 text-bone/80 hover:text-brass transition-colors"
+                aria-label="Следующее фото"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 text-[11px] tracking-[0.25em] uppercase text-bone/70 tabular-nums">
+                {active + 1} / {images.length}
+              </div>
+            </>
+          )}
+          {images[active] && (
+            <img
+              src={images[active]}
+              alt={product.title}
+              className="max-w-full max-h-full object-contain select-none"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </SiteLayout>
   );
 }
