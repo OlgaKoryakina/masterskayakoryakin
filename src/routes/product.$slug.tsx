@@ -5,8 +5,10 @@ import { supabase } from "@/integrations/supabase/client-safe";
 import { seoHead } from "@/lib/seo";
 import { useCart } from "@/lib/cart";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { detectVideoKind, getEmbedUrl } from "@/lib/video-embed";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 export const Route = createFileRoute("/product/$slug")({
   head: ({ params }) => seoHead({ title: params.slug, path: `/product/${params.slug}` }),
