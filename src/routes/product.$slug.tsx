@@ -19,6 +19,7 @@ function ProductPage() {
   const { slug } = useParams({ from: "/product/$slug" });
   const { add } = useCart();
   const [active, setActive] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["product", slug],
