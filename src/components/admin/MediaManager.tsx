@@ -110,12 +110,12 @@ export function MediaManager({ images, videos, onChange }: Props) {
   function addEmbedLink() {
     const u = linkUrl.trim();
     if (!u) return;
-    if (detectVideoKind(u) === "file") {
-      toast.error("Поддерживаются ссылки YouTube или Vimeo");
+    if (detectVideoKind(u) !== "vk") {
+      toast.error("Поддерживаются только ссылки ВК Видео");
       return;
     }
     if (!getEmbedUrl(u)) {
-      toast.error("Не удалось распознать ссылку");
+      toast.error("Не удалось распознать ссылку ВК Видео");
       return;
     }
     onChange({ images, videos: [...videos, u] });
