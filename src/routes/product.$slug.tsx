@@ -195,6 +195,51 @@ function ProductPage() {
           </div>
         </section>
       )}
+
+      <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+        <DialogContent
+          className="max-w-none w-screen h-screen p-0 border-0 bg-background/95 rounded-none sm:rounded-none flex items-center justify-center [&>button]:hidden"
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(false)}
+            className="absolute top-4 right-4 z-50 p-2 text-bone/80 hover:text-brass transition-colors"
+            aria-label="Закрыть"
+          >
+            <X className="w-7 h-7" />
+          </button>
+          {hasMany && (
+            <>
+              <button
+                type="button"
+                onClick={showPrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-2 text-bone/80 hover:text-brass transition-colors"
+                aria-label="Предыдущее фото"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+              <button
+                type="button"
+                onClick={showNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-2 text-bone/80 hover:text-brass transition-colors"
+                aria-label="Следующее фото"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 text-[11px] tracking-[0.25em] uppercase text-bone/70 tabular-nums">
+                {active + 1} / {images.length}
+              </div>
+            </>
+          )}
+          {images[active] && (
+            <img
+              src={images[active]}
+              alt={product.title}
+              className="max-w-full max-h-full object-contain select-none"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </SiteLayout>
   );
 }
