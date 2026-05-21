@@ -99,7 +99,7 @@ function CustomPage() {
 
         <div className="grid sm:grid-cols-2 gap-6">
           <Field label="Имя *" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
-          <Field label="Телефон *" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+          <Field label="​ВКонтакте *" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
         </div>
         <Field label="Telegram / WhatsApp" value={form.messenger} onChange={(v) => setForm({ ...form, messenger: v })} />
         <FieldArea label="Опишите идею" value={form.message} onChange={(v) => setForm({ ...form, message: v })} />

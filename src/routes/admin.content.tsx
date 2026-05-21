@@ -55,7 +55,7 @@ function ContentAdmin() {
       </Block>
 
       <Block title="Контакты" onSave={() => save("contacts", contacts)}>
-        <Input label="Телефон" value={contacts.phone} onChange={(v) => setContacts({ ...contacts, phone: v })} />
+        <Input label="​ВКонтакте" value={contacts.phone} onChange={(v) => setContacts({ ...contacts, phone: v })} />
         <Input label="Telegram" value={contacts.telegram} onChange={(v) => setContacts({ ...contacts, telegram: v })} />
         <Input label="Email" value={contacts.email} onChange={(v) => setContacts({ ...contacts, email: v })} />
         <Input label="Город / адрес" value={contacts.city} onChange={(v) => setContacts({ ...contacts, city: v })} />
