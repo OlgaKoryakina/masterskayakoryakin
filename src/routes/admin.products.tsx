@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client-safe";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash, X } from "lucide-react";
+import { MediaManager } from "@/components/admin/MediaManager";
 
 export const Route = createFileRoute("/admin/products")({
   component: ProductsAdmin,
@@ -98,21 +99,7 @@ function Editor({ product, onClose }: { product: Product; onClose: () => void })
     onClose();
   }
 
-  async function upload(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? []);
-    const imgs: string[] = [...(p.images ?? [])];
-    const vids: string[] = [...(p.videos ?? [])];
-    for (const f of files) {
-      const path = `${Date.now()}-${f.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-      const { error } = await supabase.storage.from("product-images").upload(path, f, { contentType: f.type });
-      if (error) { toast.error(error.message); continue; }
-      const { data } = supabase.storage.from("product-images").getPublicUrl(path);
-      if (f.type.startsWith("video/")) vids.push(data.publicUrl);
-      else imgs.push(data.publicUrl);
-    }
-    setP({ ...p, images: imgs, videos: vids });
-    e.target.value = "";
-  }
+  // media upload handled by MediaManager
 
   return (
     <div className="fixed inset-0 bg-background/90 z-50 overflow-y-auto p-6">
@@ -168,26 +155,11 @@ function Editor({ product, onClose }: { product: Product; onClose: () => void })
             </div>
           </div>
 
-          <div>
-            <span className="text-[11px] tracking-[0.18em] uppercase text-muted-foreground">Фото и видео</span>
-            <div className="grid grid-cols-4 gap-2 mt-2 mb-2">
-              {(p.images ?? []).map((u, i) => (
-                <div key={u + i} className="relative aspect-square bg-graphite">
-                  <img src={u} alt="" className="w-full h-full object-cover" />
-                  <button type="button" onClick={() => setP({ ...p, images: p.images?.filter((_, j) => j !== i) })} className="absolute top-1 right-1 bg-background/80 p-1"><X className="w-3 h-3" /></button>
-                </div>
-              ))}
-              {(p.videos ?? []).map((u, i) => (
-                <div key={u + i} className="relative aspect-square bg-graphite">
-                  <video src={u} className="w-full h-full object-cover" muted playsInline />
-                  <span className="absolute bottom-1 left-1 bg-background/80 text-[10px] px-1">VIDEO</span>
-                  <button type="button" onClick={() => setP({ ...p, videos: p.videos?.filter((_, j) => j !== i) })} className="absolute top-1 right-1 bg-background/80 p-1"><X className="w-3 h-3" /></button>
-                </div>
-              ))}
-            </div>
-            <input type="file" multiple accept="image/*,video/*" onChange={upload} className="text-sm" />
-            <p className="text-[11px] text-muted-foreground mt-1">Поддерживаются изображения и видео. Можно выбрать несколько файлов.</p>
-          </div>
+          <MediaManager
+            images={p.images ?? []}
+            videos={p.videos ?? []}
+            onChange={({ images, videos }) => setP({ ...p, images, videos })}
+          />
 
           <div className="flex items-center gap-6">
             <label className="flex items-center gap-2 text-sm">
