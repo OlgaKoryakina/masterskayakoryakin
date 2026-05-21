@@ -111,11 +111,11 @@ export function MediaManager({ images, videos, onChange }: Props) {
     const u = linkUrl.trim();
     if (!u) return;
     if (detectVideoKind(u) !== "vk") {
-      toast.error("Поддерживаются только ссылки ВК Видео");
+      toast.error("Поддерживаются только ссылки ВК Видео и ВК Клипы");
       return;
     }
     if (!getEmbedUrl(u)) {
-      toast.error("Не удалось распознать ссылку ВК Видео");
+      toast.error("Не удалось распознать ссылку ВК Видео / Клипа");
       return;
     }
     onChange({ images, videos: [...videos, u] });
@@ -229,7 +229,7 @@ export function MediaManager({ images, videos, onChange }: Props) {
           <input
             value={linkUrl}
             onChange={(e) => setLinkUrl(e.target.value)}
-            placeholder="https://vk.com/video-XXXXXX_YYYYYY"
+            placeholder="https://vk.com/video-XXX_YYY или https://vk.com/clip-XXX_YYY"
             className="flex-1 bg-transparent border border-border focus:border-brass outline-none px-3 py-1.5 text-sm"
           />
           <button type="button" onClick={addEmbedLink} className="border border-brass text-brass px-4 text-sm">
