@@ -229,7 +229,7 @@ export function MediaManager({ images, videos, onChange }: Props) {
           <input
             value={linkUrl}
             onChange={(e) => setLinkUrl(e.target.value)}
-            placeholder="https://youtu.be/... или https://vimeo.com/..."
+            placeholder="https://vk.com/video-XXXXXX_YYYYYY"
             className="flex-1 bg-transparent border border-border focus:border-brass outline-none px-3 py-1.5 text-sm"
           />
           <button type="button" onClick={addEmbedLink} className="border border-brass text-brass px-4 text-sm">
