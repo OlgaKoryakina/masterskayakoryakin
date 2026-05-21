@@ -277,7 +277,16 @@ export type Database = {
       app_role: "admin" | "user"
       product_category: "belt" | "buckle"
       product_status: "in_stock" | "made_to_order"
-      request_status: "new" | "in_progress" | "closed"
+      request_status:
+        | "new"
+        | "in_progress"
+        | "closed"
+        | "confirmed"
+        | "in_production"
+        | "ready"
+        | "shipped"
+        | "delivered"
+        | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -408,7 +417,17 @@ export const Constants = {
       app_role: ["admin", "user"],
       product_category: ["belt", "buckle"],
       product_status: ["in_stock", "made_to_order"],
-      request_status: ["new", "in_progress", "closed"],
+      request_status: [
+        "new",
+        "in_progress",
+        "closed",
+        "confirmed",
+        "in_production",
+        "ready",
+        "shipped",
+        "delivered",
+        "cancelled",
+      ],
     },
   },
 } as const

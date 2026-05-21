@@ -6,6 +6,7 @@ import { seoHead } from "@/lib/seo";
 import { useCart } from "@/lib/cart";
 import { toast } from "sonner";
 import { useState } from "react";
+import { detectVideoKind, getEmbedUrl } from "@/lib/video-embed";
 
 export const Route = createFileRoute("/product/$slug")({
   head: ({ params }) => seoHead({ title: params.slug, path: `/product/${params.slug}` }),
@@ -80,6 +81,22 @@ function ProductPage() {
                   <img src={img} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}
+            </div>
+          )}
+          {product.videos && product.videos.length > 0 && (
+            <div className="mt-6 space-y-4">
+              {product.videos.map((v: string, i: number) => {
+                const kind = detectVideoKind(v);
+                if (kind === "file") {
+                  return <video key={i} src={v} controls className="w-full aspect-video bg-graphite" />;
+                }
+                const embed = getEmbedUrl(v);
+                return embed ? (
+                  <div key={i} className="relative w-full aspect-video bg-graphite">
+                    <iframe src={embed} title={`video-${i}`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="absolute inset-0 w-full h-full" />
+                  </div>
+                ) : null;
+              })}
             </div>
           )}
         </div>
