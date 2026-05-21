@@ -156,7 +156,7 @@ function Index() {
             <p className="text-muted-foreground mb-10 max-w-lg">
               Обсудим эскиз, подберём кожу и металл, согласуем тиснение. Делаем то, чего нет ни у кого, кроме вас.
             </p>
-            <Link to="/custom" className="inline-flex items-center gap-3 border border-brass px-7 py-3.5 text-[12px] uppercase tracking-[0.22em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors">
+            <Link to="/custom" className="inline-flex items-center gap-3 border border-brass px-7 py-3.5 uppercase tracking-[0.22em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-4xl font-sans">
               Обсудить проект
               <span className="inline-block w-6 h-px bg-current" />
             </Link>
