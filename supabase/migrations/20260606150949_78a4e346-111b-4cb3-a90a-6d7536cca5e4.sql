@@ -1,0 +1,1 @@
+DELETE FROM public.faq_items WHERE id = 'db6d75a7-d7fe-45f2-ab07-41624710131d';
