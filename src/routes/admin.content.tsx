@@ -21,6 +21,11 @@ function ContentAdmin() {
   const [philosophy, setPhilosophy] = useState("");
   const [shipping, setShipping] = useState("");
   const [contacts, setContacts] = useState({ phone: "", vk: "", telegram: "", email: "", city: "" });
+  const PROCESS_TITLES = ["Эскиз","Резка кожи","Тиснение","Дизайн пряжки","Шлифовка","Патинирование","Полировка","Готово"];
+  const [processSteps, setProcessSteps] = useState<Array<{ title: string; image_url?: string }>>(
+    PROCESS_TITLES.map((t) => ({ title: t })),
+  );
+  const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
 
   useEffect(() => {
     if (!data) return;
@@ -28,7 +33,30 @@ function ContentAdmin() {
     setPhilosophy(data.philosophy?.text ?? "");
     setShipping(data.shipping?.text ?? "");
     setContacts({ phone: data.contacts?.phone ?? "", vk: data.contacts?.vk ?? "", telegram: data.contacts?.telegram ?? "", email: data.contacts?.email ?? "", city: data.contacts?.city ?? "" });
+    const items = (data.process_steps?.items as Array<{ title: string; image_url?: string }> | undefined) ?? [];
+    setProcessSteps(PROCESS_TITLES.map((t, i) => ({ title: t, image_url: items[i]?.image_url })));
   }, [data]);
+
+  async function uploadStepImage(idx: number, file: File) {
+    setUploadingIdx(idx);
+    try {
+      const path = `process/${idx}-${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+      const { error } = await supabase.storage.from("product-images").upload(path, file, { contentType: file.type, upsert: false });
+      if (error) { toast.error(error.message); return; }
+      const { data: pub } = supabase.storage.from("product-images").getPublicUrl(path);
+      const next = processSteps.map((s, i) => i === idx ? { ...s, image_url: pub.publicUrl } : s);
+      setProcessSteps(next);
+      await save("process_steps", { items: next });
+    } finally {
+      setUploadingIdx(null);
+    }
+  }
+
+  function clearStepImage(idx: number) {
+    const next = processSteps.map((s, i) => i === idx ? { title: s.title, image_url: undefined } : s);
+    setProcessSteps(next);
+    save("process_steps", { items: next });
+  }
 
   async function save(key: string, value: any) {
     const { error } = await supabase.from("site_content").upsert({ key, value });
