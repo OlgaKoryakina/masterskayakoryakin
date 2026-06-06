@@ -6,6 +6,8 @@ import { seoHead } from "@/lib/seo";
 import hero from "@/assets/hero.jpg";
 import process from "@/assets/process.jpg";
 import workshop from "@/assets/workshop.jpg";
+import finalCtaBgAsset from "@/assets/final-cta-bg.webp.asset.json";
+const finalCtaBg = finalCtaBgAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => seoHead({ title: "Ремни и латунные пряжки ручной работы", path: "/" }),
