@@ -31,7 +31,6 @@ export function Header() {
     >
       <div className="container-x flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-3 group" aria-label="Мастерская Корякиных">
-          <span className="inline-flex items-center justify-center w-9 h-9 border border-brass/50 text-brass font-serif text-lg tracking-tight">МК</span>
           <span className="hidden sm:block font-serif tracking-wide text-bone group-hover:text-brass transition-colors text-sm">
             Мастерская Корякиных
           </span>
