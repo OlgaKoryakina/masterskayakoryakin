@@ -17,6 +17,7 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [consent, setConsent] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -24,6 +25,10 @@ function AuthPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (mode === "signup" && !consent) {
+      toast.error("Необходимо согласие на обработку персональных данных");
+      return;
+    }
     setLoading(true);
     try {
       if (mode === "signin") {
@@ -36,6 +41,7 @@ function AuthPage() {
       }
     } catch (e: any) { toast.error(e.message); } finally { setLoading(false); }
   }
+
 
   return (
     <SiteLayout>
