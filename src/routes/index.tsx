@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client-safe";
+import { useState } from "react";
+import { toast } from "sonner";
 import { seoHead } from "@/lib/seo";
 import hero from "@/assets/hero.jpg";
 import process from "@/assets/process.jpg";
