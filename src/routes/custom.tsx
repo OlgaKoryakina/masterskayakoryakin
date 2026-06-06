@@ -14,7 +14,7 @@ export const Route = createFileRoute("/custom")({
 
 const schema = z.object({
   name: z.string().trim().min(2).max(100),
-  phone: z.string().trim().min(5).max(40),
+  phone: z.string().trim().min(2, "Заполните контакт ВКонтакте").max(100),
   messenger: z.string().trim().max(100).optional(),
   message: z.string().trim().max(2000).optional(),
 });
