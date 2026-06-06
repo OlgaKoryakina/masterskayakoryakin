@@ -15,7 +15,7 @@ export const Route = createFileRoute("/about")({
       </section>
       <section className="container-x grid md:grid-cols-12 gap-12 pb-20">
         <div className="md:col-span-7">
-          <img src={workshop} alt="Мастерская Корякиных" width={1600} height={1067} loading="lazy" className="w-full aspect-[3/2] object-cover" />
+          <img src={workshop} alt="Мастерская Корякиных" loading="lazy" className="w-full h-auto" />
         </div>
         <div className="md:col-span-5 space-y-5 text-muted-foreground leading-relaxed">
           <p>Мастерская Корякиных появилась из любви к настоящим вещам — тем, которые служат годами, приобретают характер со временем и становятся частью личной истории своего владельца.</p>
