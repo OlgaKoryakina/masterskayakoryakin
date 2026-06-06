@@ -27,7 +27,7 @@ function ContentAdmin() {
     setHero({ title: data.hero?.title ?? "", subtitle: data.hero?.subtitle ?? "", cta: data.hero?.cta ?? "Смотреть коллекцию" });
     setPhilosophy(data.philosophy?.text ?? "");
     setShipping(data.shipping?.text ?? "");
-    setContacts({ phone: data.contacts?.phone ?? "", telegram: data.contacts?.telegram ?? "", email: data.contacts?.email ?? "", city: data.contacts?.city ?? "" });
+    setContacts({ phone: data.contacts?.phone ?? "", vk: data.contacts?.vk ?? "", telegram: data.contacts?.telegram ?? "", email: data.contacts?.email ?? "", city: data.contacts?.city ?? "" });
   }, [data]);
 
   async function save(key: string, value: any) {
