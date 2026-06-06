@@ -6,6 +6,8 @@ import { seoHead } from "@/lib/seo";
 import hero from "@/assets/hero.jpg";
 import process from "@/assets/process.jpg";
 import workshop from "@/assets/workshop.jpg";
+import finalCtaBgAsset from "@/assets/final-cta-bg.webp.asset.json";
+const finalCtaBg = finalCtaBgAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => seoHead({ title: "Ремни и латунные пряжки ручной работы", path: "/" }),
@@ -184,12 +186,16 @@ function Index() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="container-x py-32 md:py-44 text-center">
-        <h2 className="font-serif text-5xl md:text-7xl text-bone text-balance">Изделия, которые подчеркивают ваш стиль.</h2>
-        <div className="mt-10">
-          <Link to="/catalog" className="inline-flex items-center gap-3 border-brass px-9 py-4 uppercase tracking-[0.25em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-4xl border rounded-none opacity-85">
-            Открыть коллекцию
-          </Link>
+      <section className="relative py-32 md:py-44 text-center overflow-hidden">
+        <img src={finalCtaBg} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-background/60" />
+        <div className="container-x relative">
+          <h2 className="font-serif text-5xl md:text-7xl text-bone text-balance">Изделия, которые подчеркивают ваш стиль.</h2>
+          <div className="mt-10">
+            <Link to="/catalog" className="inline-flex items-center gap-3 border-brass px-9 py-4 uppercase tracking-[0.25em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-4xl border rounded-none opacity-85">
+              Открыть коллекцию
+            </Link>
+          </div>
         </div>
       </section>
     </SiteLayout>
