@@ -41,7 +41,7 @@ export function Header() {
             <Link
               key={n.to}
               to={n.to}
-              className="text-[13px] uppercase tracking-[0.18em] text-muted-foreground hover:text-brass transition-colors"
+              className="text-[13px] uppercase tracking-[0.18em] text-bone hover:text-brass transition-colors"
               activeProps={{ className: "text-brass" }}
             >
               {n.label}
@@ -60,7 +60,7 @@ export function Header() {
           </Link>
           <Link
             to="/custom"
-            className="hidden md:inline-flex items-center border border-brass/40 text-brass px-4 py-2 text-[12px] tracking-[0.18em] uppercase hover:bg-brass hover:text-brass-foreground transition-colors"
+            className="hidden md:inline-flex items-center border border-brass text-brass-foreground bg-brass px-4 py-2 text-[12px] tracking-[0.18em] uppercase hover:bg-brass/90 transition-colors"
           >
             Оставить заявку
           </Link>
