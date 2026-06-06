@@ -78,7 +78,7 @@ function CustomPage() {
   return (
     <SiteLayout>
       <section className="container-x py-16 md:py-24 max-w-4xl">
-        <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-4">Индивидуальный заказ</div>
+        <div className="text-base md:text-lg tracking-[0.3em] uppercase text-brass mb-4">Индивидуальный заказ</div>
         <h1 className="font-serif text-5xl md:text-7xl mb-6 text-balance">Создадим изделие, которого нет ни у кого, кроме вас</h1>
         <p className="text-muted-foreground max-w-2xl text-lg leading-relaxed">
           Обсудим эскиз, подберём кожу и металл, согласуем тиснение и пряжку. Каждое изделие — соавторство мастера и заказчика.
