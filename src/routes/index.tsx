@@ -7,7 +7,9 @@ import hero from "@/assets/hero.jpg";
 import process from "@/assets/process.jpg";
 import workshop from "@/assets/workshop.jpg";
 import finalCtaBgAsset from "@/assets/final-cta-bg.webp.asset.json";
+import processToolingAsset from "@/assets/process-tooling.webp.asset.json";
 const finalCtaBg = finalCtaBgAsset.url;
+const processTooling = processToolingAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => seoHead({ title: "Ремни и латунные пряжки ручной работы", path: "/" }),
@@ -120,12 +122,17 @@ function Index() {
       {/* PROCESS */}
       <section className="py-32 md:py-44">
         <div className="container-x">
-          <div>
-            <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">Процесс</div>
-            <h2 className="font-serif text-4xl md:text-5xl mb-6">От эскиза до изделия — несколько дней ручной работы</h2>
-            <p className="text-muted-foreground leading-relaxed max-w-2xl">
-              Эскиз, резка, тиснение, дизайн пряжки, шлифовка, патинирование, полировка, финишная обработка кромки. Каждый этап — вручную.
-            </p>
+          <div className="grid md:grid-cols-12 gap-12 items-center">
+            <div className="md:col-span-5">
+              <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">Процесс</div>
+              <h2 className="font-serif text-4xl md:text-5xl mb-6">От эскиза до изделия — несколько дней ручной работы</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Эскиз, резка, тиснение, дизайн пряжки, шлифовка, патинирование, полировка, финишная обработка кромки. Каждый этап — вручную.
+              </p>
+            </div>
+            <div className="md:col-span-7">
+              <img src={processTooling} alt="Тиснение по коже" loading="lazy" className="w-full aspect-[3/2] object-cover" />
+            </div>
           </div>
 
           <div className="mt-16 overflow-x-auto -mx-6 px-6 scrollbar-thin">
