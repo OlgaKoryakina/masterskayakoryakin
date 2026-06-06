@@ -41,7 +41,7 @@ export function Header() {
             <Link
               key={n.to}
               to={n.to}
-              className="text-[13px] uppercase tracking-[0.18em] text-muted-foreground hover:text-brass transition-colors"
+              className="text-[13px] uppercase tracking-[0.18em] text-bone hover:text-brass transition-colors"
               activeProps={{ className: "text-brass" }}
             >
               {n.label}
