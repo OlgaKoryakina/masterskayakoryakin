@@ -44,7 +44,7 @@ export function Footer() {
             <li><Link to="/offer" className="text-muted-foreground hover:text-brass">Публичная оферта</Link></li>
           </ul>
           <div className="mt-6 space-y-1 text-sm text-muted-foreground">
-            <div>Telegram: <a href="https://t.me/koryakin_workshop" className="hover:text-brass">@koryakin_workshop</a></div>
+            <div>Telegram: <a href="https://t.me/zastegni" className="hover:text-brass">@zastegni</a></div>
             <div>WhatsApp: <a href="https://wa.me/79990000000" className="hover:text-brass">+7 (999) 000-00-00</a></div>
           </div>
         </div>
