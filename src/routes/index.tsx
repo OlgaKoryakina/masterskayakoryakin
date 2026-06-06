@@ -152,7 +152,7 @@ function Index() {
 
           <div className="mt-16 overflow-x-auto -mx-6 px-6 scrollbar-thin">
             <ol className="flex gap-6 md:gap-10 min-w-max">
-              {["Эскиз","Резка кожи","Тиснение","Дизайн пряжки","Шлифовка","Покраска","Полировка","Готово"].map((step, i) => {
+              {["Эскиз","Резка кожи","Тиснение","Покраска","Дизайн пряжки","Шлифовка","Полировка","Готово"].map((step, i) => {
                 const stepImages: Array<{ title: string; image_url?: string }> = content?.process_steps?.items ?? [];
                 const imageUrl = stepImages[i]?.image_url;
                 return (
