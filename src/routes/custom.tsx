@@ -101,7 +101,7 @@ function CustomPage() {
           <Field label="Имя *" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
           <Field label="​ВКонтакте *" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
         </div>
-        <Field label="Telegram / WhatsApp" value={form.messenger} onChange={(v) => setForm({ ...form, messenger: v })} />
+        <Field label="Telegram / MAX" value={form.messenger} onChange={(v) => setForm({ ...form, messenger: v })} />
         <FieldArea label="Опишите идею" value={form.message} onChange={(v) => setForm({ ...form, message: v })} />
 
         <div>
