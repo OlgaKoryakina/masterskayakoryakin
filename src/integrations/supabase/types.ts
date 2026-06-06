@@ -239,6 +239,36 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          author_name: string
+          city: string | null
+          created_at: string
+          id: string
+          status: Database["public"]["Enums"]["testimonial_status"]
+          text: string
+          updated_at: string
+        }
+        Insert: {
+          author_name: string
+          city?: string | null
+          created_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["testimonial_status"]
+          text: string
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          city?: string | null
+          created_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["testimonial_status"]
+          text?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -287,6 +317,7 @@ export type Database = {
         | "shipped"
         | "delivered"
         | "cancelled"
+      testimonial_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -428,6 +459,7 @@ export const Constants = {
         "delivered",
         "cancelled",
       ],
+      testimonial_status: ["pending", "approved", "rejected"],
     },
   },
 } as const
