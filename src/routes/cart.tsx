@@ -133,10 +133,14 @@ function CartPage() {
           <Field label="Telegram / WhatsApp" value={form.messenger} onChange={(v) => setForm({ ...form, messenger: v })} />
           <FieldArea label="Комментарий" value={form.message} onChange={(v) => setForm({ ...form, message: v })} />
           <FieldArea label="Пожелания по кастомизации" value={form.custom_notes} onChange={(v) => setForm({ ...form, custom_notes: v })} />
-          <button type="submit" disabled={loading} className="w-full border border-brass bg-brass text-brass-foreground py-3.5 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
+          <label className="flex gap-3 items-start text-xs text-muted-foreground cursor-pointer">
+            <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 accent-brass shrink-0" />
+            <span>Я даю согласие на обработку персональных данных в соответствии с <Link to="/privacy" className="underline">политикой конфиденциальности</Link> и ФЗ-152 «О персональных данных».</span>
+          </label>
+          <button type="submit" disabled={loading || !consent} className="w-full border border-brass bg-brass text-brass-foreground py-3.5 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
             {loading ? "Отправка…" : "Отправить заявку"}
           </button>
-          <p className="text-xs text-muted-foreground">Отправляя заявку, вы соглашаетесь с <Link to="/privacy" className="underline">политикой конфиденциальности</Link>.</p>
+
         </form>
       </section>
     </SiteLayout>
