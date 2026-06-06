@@ -51,7 +51,7 @@ function Index() {
                 {heroData.cta}
                 <span className="inline-block w-6 h-px bg-current transition-all group-hover:w-9" />
               </Link>
-              <Link to="/custom" className="inline-flex items-center px-7 py-3.5 text-[12px] uppercase tracking-[0.22em] text-bone/80 hover:text-brass transition-colors">
+              <Link to="/custom" className="inline-flex items-center px-7 py-3.5 text-lg md:text-xl uppercase tracking-[0.22em] text-bone/80 hover:text-brass transition-colors">
                 Индивидуальный заказ
               </Link>
             </div>
