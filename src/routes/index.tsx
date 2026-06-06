@@ -123,7 +123,7 @@ function Index() {
               <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">Процесс</div>
               <h2 className="font-serif text-4xl md:text-5xl mb-6">От эскиза до изделия — несколько дней ручной работы</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Эскиз, выкройка, резка, тиснение, литьё латуни, шлифовка, патинирование, полировка, прошивка, финишная обработка кромки. Каждый этап — вручную.
+                Эскиз, резка, тиснение, дизайн пряжки, шлифовка, патинирование, полировка, финишная обработка кромки. Каждый этап — вручную.
               </p>
             </div>
             <div className="md:col-span-7">
