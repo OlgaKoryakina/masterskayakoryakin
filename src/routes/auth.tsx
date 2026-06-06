@@ -57,9 +57,16 @@ function AuthPage() {
             <span className="text-[11px] tracking-[0.18em] uppercase text-muted-foreground">Пароль</span>
             <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1.5 w-full bg-transparent border-b border-border focus:border-brass outline-none py-2" />
           </label>
-          <button disabled={loading} className="w-full border border-brass bg-brass text-brass-foreground py-3 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
+          {mode === "signup" && (
+            <label className="flex gap-3 items-start text-xs text-muted-foreground cursor-pointer">
+              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 accent-brass shrink-0" />
+              <span>Я даю согласие на обработку персональных данных в соответствии с <Link to="/privacy" className="underline">политикой конфиденциальности</Link> и ФЗ-152 «О персональных данных».</span>
+            </label>
+          )}
+          <button disabled={loading || (mode === "signup" && !consent)} className="w-full border border-brass bg-brass text-brass-foreground py-3 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
             {loading ? "…" : mode === "signin" ? "Войти" : "Зарегистрироваться"}
           </button>
+
         </form>
         <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="mt-4 text-sm text-muted-foreground hover:text-brass">
           {mode === "signin" ? "Создать аккаунт" : "У меня уже есть аккаунт"}
