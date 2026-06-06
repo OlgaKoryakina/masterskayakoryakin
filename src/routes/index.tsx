@@ -151,7 +151,7 @@ function Index() {
         <div className="absolute inset-0 bg-background/70" />
         <div className="container-x relative">
           <div className="max-w-2xl">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-4">Индивидуальный заказ</div>
+            <div className="text-base md:text-lg tracking-[0.3em] uppercase text-brass mb-4">Индивидуальный заказ</div>
             <h2 className="font-serif text-4xl md:text-6xl mb-6 text-balance">Ремень с вашей символикой, инициалами и пряжкой</h2>
             <p className="text-muted-foreground mb-10 max-w-lg">
               Обсудим эскиз, подберём кожу и металл, согласуем тиснение. Делаем то, чего нет ни у кого, кроме вас.
