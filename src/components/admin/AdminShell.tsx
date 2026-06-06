@@ -37,6 +37,7 @@ export function AdminShell() {
           {[
             { to: "/admin", l: "Сводка" },
             { to: "/admin/requests", l: "Заявки" },
+            { to: "/admin/reviews", l: "Отзывы" },
             { to: "/admin/products", l: "Товары" },
             { to: "/admin/content", l: "Контент" },
           ].map((n) => (
