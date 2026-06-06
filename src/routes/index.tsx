@@ -69,8 +69,15 @@ function Index() {
       </section>
 
       {/* PHILOSOPHY */}
-      <section className="container-x py-32 md:py-44">
-        <div className="grid md:grid-cols-12 gap-10 items-start">
+      <section className="relative container-x py-32 md:py-44 overflow-hidden">
+        <img
+          src={masterPortrait}
+          alt="Мастер с готовыми ремнями"
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/40 pointer-events-none" />
+        <div className="relative grid md:grid-cols-12 gap-10 items-start">
           <div className="md:col-span-3" />
           <div className="md:col-span-9">
             <p className="font-serif text-3xl md:text-5xl leading-[1.15] text-bone text-balance">
