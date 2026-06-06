@@ -32,7 +32,7 @@ function Index() {
   const { data: content } = useQuery({
     queryKey: ["content", "home"],
     queryFn: async () => {
-      const { data } = await supabase.from("site_content").select("*").in("key", ["hero", "philosophy"]);
+      const { data } = await supabase.from("site_content").select("*").in("key", ["hero", "philosophy", "process_steps"]);
       return Object.fromEntries((data ?? []).map((r: any) => [r.key, r.value]));
     },
   });
