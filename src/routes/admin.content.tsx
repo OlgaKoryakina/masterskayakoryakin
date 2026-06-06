@@ -20,14 +20,14 @@ function ContentAdmin() {
   const [hero, setHero] = useState({ title: "", subtitle: "", cta: "" });
   const [philosophy, setPhilosophy] = useState("");
   const [shipping, setShipping] = useState("");
-  const [contacts, setContacts] = useState({ phone: "", telegram: "", email: "", city: "" });
+  const [contacts, setContacts] = useState({ phone: "", vk: "", telegram: "", email: "", city: "" });
 
   useEffect(() => {
     if (!data) return;
     setHero({ title: data.hero?.title ?? "", subtitle: data.hero?.subtitle ?? "", cta: data.hero?.cta ?? "Смотреть коллекцию" });
     setPhilosophy(data.philosophy?.text ?? "");
     setShipping(data.shipping?.text ?? "");
-    setContacts({ phone: data.contacts?.phone ?? "", telegram: data.contacts?.telegram ?? "", email: data.contacts?.email ?? "", city: data.contacts?.city ?? "" });
+    setContacts({ phone: data.contacts?.phone ?? "", vk: data.contacts?.vk ?? "", telegram: data.contacts?.telegram ?? "", email: data.contacts?.email ?? "", city: data.contacts?.city ?? "" });
   }, [data]);
 
   async function save(key: string, value: any) {
@@ -55,7 +55,8 @@ function ContentAdmin() {
       </Block>
 
       <Block title="Контакты" onSave={() => save("contacts", contacts)}>
-        <Input label="​ВКонтакте" value={contacts.phone} onChange={(v) => setContacts({ ...contacts, phone: v })} />
+        <Input label="Телефон" value={contacts.phone} onChange={(v) => setContacts({ ...contacts, phone: v })} />
+        <Input label="ВКонтакте" value={contacts.vk} onChange={(v) => setContacts({ ...contacts, vk: v })} />
         <Input label="Telegram" value={contacts.telegram} onChange={(v) => setContacts({ ...contacts, telegram: v })} />
         <Input label="Email" value={contacts.email} onChange={(v) => setContacts({ ...contacts, email: v })} />
         <Input label="Город / адрес" value={contacts.city} onChange={(v) => setContacts({ ...contacts, city: v })} />
