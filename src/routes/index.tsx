@@ -176,23 +176,8 @@ function Index() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="container-x py-32">
-        <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85"> Что говорят</div>
-        <div className="grid md:grid-cols-3 gap-12 mt-12">
-          {[
-            { q: "Это первый ремень в моей жизни, который хочется носить вечно. Кожа становится только красивее.", a: "Андрей К., Москва" },
-            { q: "Пряжку с моим вензелем сделали идеально. Латунь живая, патина появилась через месяц.", a: "Игорь М., Санкт-Петербург" },
-            { q: "Подарок мужу на 10 лет свадьбы. Он сказал, что ничего подобного у него не было.", a: "Анна Л., Казань" },
-          ].map((t, i) => (
-            <figure key={i} className="border-l border-brass/40 pl-6">
-              <blockquote className="font-serif text-2xl leading-snug text-bone text-balance">
-                «{t.q}»
-              </blockquote>
-              <figcaption className="mt-6 text-[12px] tracking-[0.2em] uppercase text-muted-foreground">{t.a}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
+      <TestimonialsSection />
+
 
       {/* FINAL CTA */}
       <section className="relative py-32 md:py-44 text-center overflow-hidden">
