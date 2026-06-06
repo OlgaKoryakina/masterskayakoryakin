@@ -74,7 +74,7 @@ function Index() {
           src={masterPortrait}
           alt="Мастер с готовыми ремнями"
           loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/40 pointer-events-none" />
         <div className="relative grid md:grid-cols-12 gap-10 items-start">
