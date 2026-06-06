@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { seoHead } from "@/lib/seo";
-import workshop from "@/assets/workshop-new.png";
+import workshopAsset from "@/assets/workshop-koryakin.webp.asset.json";
+const workshop = workshopAsset.url;
 import process from "@/assets/process.jpg";
 
 export const Route = createFileRoute("/about")({
