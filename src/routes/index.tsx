@@ -131,7 +131,7 @@ function Index() {
               </p>
             </div>
             <div className="md:col-span-7">
-              <img src={processTooling} alt="Тиснение по коже" loading="lazy" className="w-full aspect-[3/2] object-cover" />
+              <img src={processTooling} alt="Тиснение по коже" loading="lazy" className="w-full h-auto" />
             </div>
           </div>
 
