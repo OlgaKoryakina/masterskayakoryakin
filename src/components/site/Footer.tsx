@@ -45,7 +45,7 @@ export function Footer() {
           </ul>
           <div className="mt-6 space-y-1 text-sm text-muted-foreground">
             <div>Telegram: <a href="https://t.me/zastegni" className="hover:text-brass">@zastegni</a></div>
-            <div>WhatsApp: <a href="https://wa.me/79990000000" className="hover:text-brass">+7 (999) 000-00-00</a></div>
+            <div>MAX: <a href="tel:+79063551224" className="hover:text-brass">+7 (906) 355-12-24</a></div>
           </div>
         </div>
       </div>
