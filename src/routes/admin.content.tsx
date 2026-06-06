@@ -21,7 +21,7 @@ function ContentAdmin() {
   const [philosophy, setPhilosophy] = useState("");
   const [shipping, setShipping] = useState("");
   const [contacts, setContacts] = useState({ phone: "", vk: "", telegram: "", email: "", city: "" });
-  const PROCESS_TITLES = ["Эскиз","Резка кожи","Тиснение","Дизайн пряжки","Шлифовка","Покраска","Полировка","Готово"];
+  const PROCESS_TITLES = ["Эскиз","Резка кожи","Тиснение","Покраска","Дизайн пряжки","Шлифовка","Полировка","Готово"];
   const [processSteps, setProcessSteps] = useState<Array<{ title: string; image_url?: string }>>(
     PROCESS_TITLES.map((t) => ({ title: t })),
   );
