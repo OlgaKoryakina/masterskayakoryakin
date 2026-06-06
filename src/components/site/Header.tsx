@@ -60,7 +60,7 @@ export function Header() {
           </Link>
           <Link
             to="/custom"
-            className="hidden md:inline-flex items-center border border-brass/40 text-brass px-4 py-2 text-[12px] tracking-[0.18em] uppercase hover:bg-brass hover:text-brass-foreground transition-colors"
+            className="hidden md:inline-flex items-center border border-brass text-brass-foreground bg-brass px-4 py-2 text-[12px] tracking-[0.18em] uppercase hover:bg-brass/90 transition-colors"
           >
             Оставить заявку
           </Link>
