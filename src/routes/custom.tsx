@@ -33,6 +33,7 @@ function CustomPage() {
   const [form, setForm] = useState({ name: "", phone: "", messenger: "", message: "" });
   const [selected, setSelected] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -41,8 +42,10 @@ function CustomPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!consent) return toast.error("Необходимо согласие на обработку персональных данных");
     const parsed = schema.safeParse(form);
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Проверьте форму");
+
     setLoading(true);
     try {
       const urls: string[] = [];
