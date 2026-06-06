@@ -138,9 +138,15 @@ function CustomPage() {
           )}
         </div>
 
-        <button type="submit" disabled={loading} className="border border-brass bg-brass text-brass-foreground px-9 py-4 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
+        <label className="flex gap-3 items-start text-xs text-muted-foreground cursor-pointer max-w-2xl">
+          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 accent-brass shrink-0" />
+          <span>Я даю согласие на обработку персональных данных в соответствии с <Link to="/privacy" className="underline">политикой конфиденциальности</Link> и ФЗ-152 «О персональных данных».</span>
+        </label>
+
+        <button type="submit" disabled={loading || !consent} className="border border-brass bg-brass text-brass-foreground px-9 py-4 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
           {loading ? "Отправка…" : "Обсудить проект"}
         </button>
+
       </form>
     </SiteLayout>
   );
