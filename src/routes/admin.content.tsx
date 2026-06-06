@@ -20,7 +20,7 @@ function ContentAdmin() {
   const [hero, setHero] = useState({ title: "", subtitle: "", cta: "" });
   const [philosophy, setPhilosophy] = useState("");
   const [shipping, setShipping] = useState("");
-  const [contacts, setContacts] = useState({ phone: "", telegram: "", email: "", city: "" });
+  const [contacts, setContacts] = useState({ phone: "", vk: "", telegram: "", email: "", city: "" });
 
   useEffect(() => {
     if (!data) return;
