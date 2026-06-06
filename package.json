@@ -87,6 +87,10 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css",
+    "src/lib/ssr-polyfills.ts",
+    "src/lib/error-capture.ts"
+  ],
   "type": "module"
 }
