@@ -106,14 +106,33 @@ function CustomPage() {
 
         <div>
           <span className="text-[11px] tracking-[0.18em] uppercase text-muted-foreground">Референсы (фото, эскизы) — до 5 файлов</span>
-          <input
-            type="file"
-            multiple
-            accept="image/*,.pdf"
-            onChange={(e) => setFiles(Array.from(e.target.files ?? []).slice(0, 5))}
-            className="mt-2 block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:border file:border-brass/40 file:bg-transparent file:text-brass file:text-[11px] file:uppercase file:tracking-[0.18em] hover:file:bg-brass hover:file:text-brass-foreground"
-          />
-          {files.length > 0 && <div className="mt-2 text-xs text-muted-foreground">Выбрано: {files.length}</div>}
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <label className={`inline-flex items-center px-4 py-2 border border-brass/40 text-brass text-[11px] uppercase tracking-[0.18em] cursor-pointer hover:bg-brass hover:text-brass-foreground ${files.length >= 5 ? "opacity-40 pointer-events-none" : ""}`}>
+              Добавить файл
+              <input
+                type="file"
+                multiple
+                accept="image/*,.pdf"
+                className="hidden"
+                onChange={(e) => {
+                  const incoming = Array.from(e.target.files ?? []);
+                  setFiles((cur) => [...cur, ...incoming].slice(0, 5));
+                  e.target.value = "";
+                }}
+              />
+            </label>
+            <span className="text-xs text-muted-foreground">{files.length}/5</span>
+          </div>
+          {files.length > 0 && (
+            <ul className="mt-3 space-y-1 text-sm">
+              {files.map((f, i) => (
+                <li key={i} className="flex items-center justify-between gap-3 border-b border-border/50 py-1.5">
+                  <span className="truncate text-muted-foreground">{f.name}</span>
+                  <button type="button" onClick={() => setFiles((cur) => cur.filter((_, idx) => idx !== i))} className="text-brass hover:underline text-xs uppercase tracking-[0.18em]">Удалить</button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <button type="submit" disabled={loading} className="border border-brass bg-brass text-brass-foreground px-9 py-4 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
