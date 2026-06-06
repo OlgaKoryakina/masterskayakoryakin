@@ -195,3 +195,137 @@ function Index() {
     </SiteLayout>
   );
 }
+
+const SEED_TESTIMONIALS = [
+  { text: "Это первый ремень в моей жизни, который хочется носить вечно. Кожа становится только красивее.", author_name: "Андрей К.", city: "Москва" },
+  { text: "Пряжку с моим вензелем сделали идеально. Латунь живая, патина появилась через месяц.", author_name: "Игорь М.", city: "Санкт-Петербург" },
+  { text: "Подарок мужу на 10 лет свадьбы. Он сказал, что ничего подобного у него не было.", author_name: "Анна Л.", city: "Казань" },
+];
+
+function TestimonialsSection() {
+  const queryClient = useQueryClient();
+  const { data: reviews } = useQuery({
+    queryKey: ["testimonials", "approved"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("testimonials")
+        .select("id, author_name, city, text")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(9);
+      return data ?? [];
+    },
+  });
+
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [city, setCity] = useState("");
+  const [text, setText] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const items = (reviews && reviews.length > 0) ? reviews : SEED_TESTIMONIALS;
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmedName = name.trim();
+    const trimmedText = text.trim();
+    const trimmedCity = city.trim();
+    if (trimmedName.length < 2 || trimmedName.length > 100) {
+      toast.error("Имя: от 2 до 100 символов");
+      return;
+    }
+    if (trimmedText.length < 10 || trimmedText.length > 2000) {
+      toast.error("Отзыв: от 10 до 2000 символов");
+      return;
+    }
+    if (trimmedCity.length > 100) {
+      toast.error("Город: не более 100 символов");
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase.from("testimonials").insert({
+      author_name: trimmedName,
+      city: trimmedCity || null,
+      text: trimmedText,
+      status: "pending",
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Не удалось отправить отзыв. Попробуйте позже.");
+      return;
+    }
+    toast.success("Спасибо! Отзыв отправлен на модерацию.");
+    setName(""); setCity(""); setText(""); setOpen(false);
+    queryClient.invalidateQueries({ queryKey: ["testimonials", "approved"] });
+  };
+
+  return (
+    <section className="container-x py-32">
+      <div className="flex items-end justify-between gap-6 flex-wrap mb-12">
+        <div className="tracking-[0.3em] uppercase text-brass text-xl font-serif opacity-85">Что говорят</div>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="text-[12px] uppercase tracking-[0.22em] text-brass hover:underline"
+        >
+          {open ? "Закрыть" : "Оставить отзыв →"}
+        </button>
+      </div>
+
+      {open && (
+        <form onSubmit={submit} className="mb-16 border border-brass/30 p-6 md:p-10 grid gap-4 max-w-3xl">
+          <div className="grid md:grid-cols-2 gap-4">
+            <input
+              type="text"
+              required
+              maxLength={100}
+              placeholder="Ваше имя"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="bg-transparent border border-border px-4 py-3 text-bone placeholder:text-muted-foreground focus:outline-none focus:border-brass"
+            />
+            <input
+              type="text"
+              maxLength={100}
+              placeholder="Город (необязательно)"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="bg-transparent border border-border px-4 py-3 text-bone placeholder:text-muted-foreground focus:outline-none focus:border-brass"
+            />
+          </div>
+          <textarea
+            required
+            maxLength={2000}
+            placeholder="Ваш отзыв"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={5}
+            className="bg-transparent border border-border px-4 py-3 text-bone placeholder:text-muted-foreground focus:outline-none focus:border-brass resize-y"
+          />
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <p className="text-xs text-muted-foreground">Отзыв появится на сайте после модерации.</p>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="inline-flex items-center gap-3 border border-brass px-7 py-3 uppercase tracking-[0.22em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-sm disabled:opacity-50"
+            >
+              {submitting ? "Отправка..." : "Отправить"}
+            </button>
+          </div>
+        </form>
+      )}
+
+      <div className="grid md:grid-cols-3 gap-12">
+        {items.map((t: any, i: number) => (
+          <figure key={t.id ?? i} className="border-l border-brass/40 pl-6">
+            <blockquote className="font-serif text-2xl leading-snug text-bone text-balance">
+              «{t.text}»
+            </blockquote>
+            <figcaption className="mt-6 text-[12px] tracking-[0.2em] uppercase text-muted-foreground">
+              {t.author_name}{t.city ? `, ${t.city}` : ""}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
