@@ -21,6 +21,11 @@ function ContentAdmin() {
   const [philosophy, setPhilosophy] = useState("");
   const [shipping, setShipping] = useState("");
   const [contacts, setContacts] = useState({ phone: "", vk: "", telegram: "", email: "", city: "" });
+  const PROCESS_TITLES = ["Эскиз","Резка кожи","Тиснение","Дизайн пряжки","Шлифовка","Патинирование","Полировка","Готово"];
+  const [processSteps, setProcessSteps] = useState<Array<{ title: string; image_url?: string }>>(
+    PROCESS_TITLES.map((t) => ({ title: t })),
+  );
+  const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
 
   useEffect(() => {
     if (!data) return;
@@ -28,7 +33,30 @@ function ContentAdmin() {
     setPhilosophy(data.philosophy?.text ?? "");
     setShipping(data.shipping?.text ?? "");
     setContacts({ phone: data.contacts?.phone ?? "", vk: data.contacts?.vk ?? "", telegram: data.contacts?.telegram ?? "", email: data.contacts?.email ?? "", city: data.contacts?.city ?? "" });
+    const items = (data.process_steps?.items as Array<{ title: string; image_url?: string }> | undefined) ?? [];
+    setProcessSteps(PROCESS_TITLES.map((t, i) => ({ title: t, image_url: items[i]?.image_url })));
   }, [data]);
+
+  async function uploadStepImage(idx: number, file: File) {
+    setUploadingIdx(idx);
+    try {
+      const path = `process/${idx}-${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+      const { error } = await supabase.storage.from("product-images").upload(path, file, { contentType: file.type, upsert: false });
+      if (error) { toast.error(error.message); return; }
+      const { data: pub } = supabase.storage.from("product-images").getPublicUrl(path);
+      const next = processSteps.map((s, i) => i === idx ? { ...s, image_url: pub.publicUrl } : s);
+      setProcessSteps(next);
+      await save("process_steps", { items: next });
+    } finally {
+      setUploadingIdx(null);
+    }
+  }
+
+  function clearStepImage(idx: number) {
+    const next = processSteps.map((s, i) => i === idx ? { title: s.title, image_url: undefined } : s);
+    setProcessSteps(next);
+    save("process_steps", { items: next });
+  }
 
   async function save(key: string, value: any) {
     const { error } = await supabase.from("site_content").upsert({ key, value });
@@ -60,6 +88,37 @@ function ContentAdmin() {
         <Input label="Telegram" value={contacts.telegram} onChange={(v) => setContacts({ ...contacts, telegram: v })} />
         <Input label="Email" value={contacts.email} onChange={(v) => setContacts({ ...contacts, email: v })} />
         <Input label="Город / адрес" value={contacts.city} onChange={(v) => setContacts({ ...contacts, city: v })} />
+      </Block>
+      <Block title="Этапы процесса (фото)" onSave={() => save("process_steps", { items: processSteps })}>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {processSteps.map((step, i) => (
+            <div key={i} className="border border-border p-3 flex gap-3 items-start">
+              <div className="w-20 h-20 shrink-0 bg-graphite/40 border border-border/50 overflow-hidden">
+                {step.image_url && <img src={step.image_url} alt={step.title} className="w-full h-full object-cover" />}
+              </div>
+              <div className="flex-1 min-w-0 space-y-2">
+                <div className="text-[10px] tracking-[0.25em] uppercase text-brass">0{i + 1}</div>
+                <div className="font-serif text-base truncate">{step.title}</div>
+                <div className="flex items-center gap-2">
+                  <label className="cursor-pointer border border-brass text-brass px-3 py-1 text-[10px] uppercase tracking-[0.18em] hover:bg-brass hover:text-brass-foreground">
+                    {uploadingIdx === i ? "…" : step.image_url ? "Заменить" : "Загрузить"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadStepImage(i, f); e.currentTarget.value = ""; }}
+                    />
+                  </label>
+                  {step.image_url && (
+                    <button onClick={() => clearStepImage(i)} className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-brass">
+                      Удалить
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </Block>
     </div>
   );
