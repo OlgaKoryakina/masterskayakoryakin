@@ -69,9 +69,7 @@ function Index() {
       {/* PHILOSOPHY */}
       <section className="container-x py-32 md:py-44">
         <div className="grid md:grid-cols-12 gap-10 items-start">
-          <div className="md:col-span-3">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-brass">— Манифест</div>
-          </div>
+          <div className="md:col-span-3" />
           <div className="md:col-span-9">
             <p className="font-serif text-3xl md:text-5xl leading-[1.15] text-bone text-balance">
               {philosophy}
