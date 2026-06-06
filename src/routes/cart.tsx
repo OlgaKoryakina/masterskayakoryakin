@@ -25,16 +25,22 @@ function CartPage() {
   const { items, remove, updateNote, clear } = useCart();
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", phone: "", messenger: "", message: "", custom_notes: "" });
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!consent) {
+      toast.error("Необходимо согласие на обработку персональных данных");
+      return;
+    }
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
       toast.error(parsed.error.issues[0]?.message ?? "Проверьте форму");
       return;
     }
+
     setLoading(true);
     try {
       const { data: req, error } = await supabase
