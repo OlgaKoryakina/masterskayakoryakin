@@ -239,11 +239,16 @@ function TestimonialsSection() {
   const [city, setCity] = useState("");
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   const items = (reviews && reviews.length > 0) ? reviews : SEED_TESTIMONIALS;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consent) {
+      toast.error("Необходимо согласие на обработку персональных данных");
+      return;
+    }
     const trimmedName = name.trim();
     const trimmedText = text.trim();
     const trimmedCity = city.trim();
@@ -259,6 +264,7 @@ function TestimonialsSection() {
       toast.error("Город: не более 100 символов");
       return;
     }
+
     setSubmitting(true);
     const { error } = await supabase.from("testimonials").insert({
       author_name: trimmedName,
@@ -318,16 +324,21 @@ function TestimonialsSection() {
             rows={5}
             className="bg-transparent border border-border px-4 py-3 text-bone placeholder:text-muted-foreground focus:outline-none focus:border-brass resize-y"
           />
+          <label className="flex gap-3 items-start text-xs text-muted-foreground cursor-pointer">
+            <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 accent-brass shrink-0" />
+            <span>Я даю согласие на обработку персональных данных в соответствии с <Link to="/privacy" className="underline">политикой конфиденциальности</Link> и ФЗ-152 «О персональных данных».</span>
+          </label>
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <p className="text-xs text-muted-foreground">Отзыв появится на сайте после модерации.</p>
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !consent}
               className="inline-flex items-center gap-3 border border-brass px-7 py-3 uppercase tracking-[0.22em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-sm disabled:opacity-50"
             >
               {submitting ? "Отправка..." : "Отправить"}
             </button>
           </div>
+
         </form>
       )}
 

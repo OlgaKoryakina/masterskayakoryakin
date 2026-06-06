@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { seoHead } from "@/lib/seo";
 import { useState } from "react";
@@ -33,6 +33,7 @@ function CustomPage() {
   const [form, setForm] = useState({ name: "", phone: "", messenger: "", message: "" });
   const [selected, setSelected] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -41,8 +42,10 @@ function CustomPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!consent) return toast.error("Необходимо согласие на обработку персональных данных");
     const parsed = schema.safeParse(form);
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Проверьте форму");
+
     setLoading(true);
     try {
       const urls: string[] = [];
@@ -135,9 +138,15 @@ function CustomPage() {
           )}
         </div>
 
-        <button type="submit" disabled={loading} className="border border-brass bg-brass text-brass-foreground px-9 py-4 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
+        <label className="flex gap-3 items-start text-xs text-muted-foreground cursor-pointer max-w-2xl">
+          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 accent-brass shrink-0" />
+          <span>Я даю согласие на обработку персональных данных в соответствии с <Link to="/privacy" className="underline">политикой конфиденциальности</Link> и ФЗ-152 «О персональных данных».</span>
+        </label>
+
+        <button type="submit" disabled={loading || !consent} className="border border-brass bg-brass text-brass-foreground px-9 py-4 text-[12px] uppercase tracking-[0.22em] hover:bg-transparent hover:text-brass disabled:opacity-50">
           {loading ? "Отправка…" : "Обсудить проект"}
         </button>
+
       </form>
     </SiteLayout>
   );
