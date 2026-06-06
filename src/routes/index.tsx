@@ -239,11 +239,16 @@ function TestimonialsSection() {
   const [city, setCity] = useState("");
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   const items = (reviews && reviews.length > 0) ? reviews : SEED_TESTIMONIALS;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consent) {
+      toast.error("Необходимо согласие на обработку персональных данных");
+      return;
+    }
     const trimmedName = name.trim();
     const trimmedText = text.trim();
     const trimmedCity = city.trim();
@@ -259,6 +264,7 @@ function TestimonialsSection() {
       toast.error("Город: не более 100 символов");
       return;
     }
+
     setSubmitting(true);
     const { error } = await supabase.from("testimonials").insert({
       author_name: trimmedName,
