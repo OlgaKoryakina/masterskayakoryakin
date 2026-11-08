@@ -1,20 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useContent, useSiteContentAll } from "@/hooks/useContent";
+import { Media, RichText } from "@/components/site/RichText";
+import { DEFAULT_PROCESS_STEPS } from "@/lib/content-schema";
 import { supabase } from "@/integrations/supabase/client-safe";
 import { useState } from "react";
 import { toast } from "sonner";
 import { seoHead } from "@/lib/seo";
-import heroAsset from "@/assets/hero-belt.webp.asset.json";
-const hero = heroAsset.url;
-import process from "@/assets/process.jpg";
-import workshop from "@/assets/workshop.jpg";
-import finalCtaBgAsset from "@/assets/final-cta-bg.webp.asset.json";
-import processToolingAsset from "@/assets/process-tooling.webp.asset.json";
-import masterPortraitAsset from "@/assets/master-portrait.webp.asset.json";
-const finalCtaBg = finalCtaBgAsset.url;
-const processTooling = processToolingAsset.url;
-const masterPortrait = masterPortraitAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => seoHead({ title: "Ремни и латунные пряжки ручной работы", path: "/" }),
@@ -29,26 +22,26 @@ function Index() {
       return data ?? [];
     },
   });
-  const { data: content } = useQuery({
-    queryKey: ["content", "home"],
-    queryFn: async () => {
-      const { data } = await supabase.from("site_content").select("*").in("key", ["hero", "philosophy", "process_steps"]);
-      return Object.fromEntries((data ?? []).map((r: any) => [r.key, r.value]));
-    },
-  });
+  const { data: content } = useSiteContentAll();
 
-  const heroData = content?.hero ?? { title: "Изделия, которые подчеркивают ваш стиль", subtitle: "Ремни и латунные пряжки ручной работы.", cta: "Смотреть коллекцию" };
-  const philosophy = content?.philosophy?.text ?? "Мы работаем с кожей растительного дубления и латунью собственной отливки.";
+  const heroData = useContent("hero");
+  const phil = useContent("philosophy");
+  const philosophy = phil.text;
+  const featuredC = useContent("featured");
+  const proc = useContent("process_block");
+  const cust = useContent("custom_block");
+  const fin = useContent("final_cta");
+  const stepItems: Array<{ title: string; image_url?: string }> = content?.process_steps?.items?.length ? content.process_steps.items : DEFAULT_PROCESS_STEPS.map((t) => ({ title: t }));
 
   return (
     <SiteLayout transparentHeader>
       {/* HERO */}
       <section className="relative min-h-[100svh] flex items-end overflow-hidden grain">
-        <img src={hero} alt="Ремень ручной работы с латунной пряжкой" width={1920} height={1280} className="absolute inset-0 w-full h-full object-cover" fetchPriority="high" />
+        <Media src={heroData.media} alt="Ремень ручной работы с латунной пряжкой" loading="eager" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/30" />
         <div className="container-x relative pb-20 md:pb-32 pt-32">
           <div className="max-w-3xl">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-6">Мастерская Корякиных · с 2026</div>
+            <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-6">{heroData.eyebrow}</div>
             <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-bone text-balance">
               {heroData.title}
             </h1>
@@ -61,7 +54,7 @@ function Index() {
                 <span className="inline-block w-6 h-px bg-current transition-all group-hover:w-9" />
               </Link>
               <Link to="/custom" className="inline-flex items-center px-7 py-3.5 text-lg md:text-xl uppercase tracking-[0.22em] text-bone/80 hover:text-brass transition-colors">
-                Индивидуальный заказ
+                {heroData.cta2}
               </Link>
             </div>
           </div>
@@ -71,12 +64,7 @@ function Index() {
 
       {/* PHILOSOPHY */}
       <section className="relative container-x py-32 md:py-44 overflow-hidden">
-        <img
-          src={masterPortrait}
-          alt="Мастер с готовыми ремнями"
-          loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
-        />
+        <Media src={phil.media} alt="Мастер с готовыми ремнями" className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/40 pointer-events-none" />
         <div className="relative grid md:grid-cols-12 gap-10 items-start">
           <div className="md:col-span-3" />
@@ -94,7 +82,7 @@ function Index() {
           <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">
             <div>
               <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">Избранное</div>
-              <h2 className="font-serif text-4xl md:text-5xl">Лучшие работы сезона</h2>
+              <h2 className="font-serif text-4xl md:text-5xl">{featuredC.title}</h2>
             </div>
             <Link to="/catalog" className="text-[12px] uppercase tracking-[0.22em] text-brass hover:underline">Весь каталог →</Link>
           </div>
@@ -135,29 +123,22 @@ function Index() {
           <div className="grid md:grid-cols-12 gap-12 items-center">
             <div className="md:col-span-5">
               <div className="tracking-[0.3em] uppercase text-brass mb-3 text-xl font-serif border-0 rounded-none opacity-85">Процесс</div>
-              <h2 className="font-serif text-4xl md:text-5xl mb-6">От эскиза до готового изделия</h2>
-              <div className="text-muted-foreground leading-relaxed space-y-4">
-                <p>Создание каждого ремня начинается с идеи и эскиза будущей пряжки. Мы разрабатываем дизайн, который будет гармонично сочетаться с кожей и со временем выглядеть только лучше.</p>
-                <p>Разработка дизайна пряжки, шлифовка и полировка металла, раскрой кожи растительного дубления, окрашивание, обработка кромок, сборка и финальная проверка качества. Каждый этап выполняется вручную одним мастером — без конвейера и массового производства.</p>
-                <p>Параллельно подготавливается кожа растительного дубления. Мы отбираем лучшие участки шкуры, раскраиваем ременную полосу, обрабатываем края и подгоняем размеры. После этого кожа проходит окрашивание и финишную обработку, которая подчеркивает её естественную фактуру и защищает поверхность.</p>
-                <p>Когда пряжка и ременная полоса готовы, начинается сборка изделия. Все отверстия пробиваются вручную, устанавливается фурнитура, а кромки многократно шлифуются, окрашиваются и полируются до гладкого состояния.</p>
-                <p>Финальный этап — контроль качества. Мы проверяем каждую деталь, качество обработки кожи, работу пряжки и внешний вид изделия.</p>
-                <p>От первого эскиза до готового изделия проходит несколько дней ручной работы. Никакого конвейера — только традиционное ремесло, внимание к деталям.</p>
-              </div>
+              <h2 className="font-serif text-4xl md:text-5xl mb-6">{proc.title}</h2>
+              <RichText text={proc.text} className="text-muted-foreground leading-relaxed space-y-4" />
             </div>
             <div className="md:col-span-7">
-              <img src={processTooling} alt="Тиснение по коже" loading="lazy" className="w-full h-auto" />
+              <Media src={proc.media} alt="Тиснение по коже" className="w-full h-auto" />
             </div>
           </div>
 
           <div className="mt-16 overflow-x-auto -mx-6 px-6 scrollbar-thin">
             <ol className="flex gap-6 md:gap-10 min-w-max">
-              {["Эскиз","Резка кожи","Тиснение","Покраска","Дизайн пряжки","Шлифовка","Полировка","Готово"].map((step, i) => {
-                const stepImages: Array<{ title: string; image_url?: string }> = content?.process_steps?.items ?? [];
-                const imageUrl = stepImages[i]?.image_url;
+              {stepItems.map((it, i) => {
+                const step = it.title;
+                const imageUrl = it.image_url;
                 return (
-                  <li key={step} className="flex flex-col gap-3 min-w-[180px]">
-                    <div className="text-[10px] tracking-[0.25em] uppercase text-brass">0{i + 1}</div>
+                  <li key={i} className="flex flex-col gap-3 min-w-[180px]">
+                    <div className="text-[10px] tracking-[0.25em] uppercase text-brass">{String(i + 1).padStart(2, "0")}</div>
                     {imageUrl ? (
                       <img src={imageUrl} alt={step} loading="lazy" className="w-[180px] h-[180px] object-cover" />
                     ) : (
@@ -175,17 +156,17 @@ function Index() {
 
       {/* CUSTOM */}
       <section className="relative py-32 md:py-44 overflow-hidden">
-        <img src={workshop} alt="Мастерская" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-30" />
+        <Media src={cust.media} alt="Мастерская" className="absolute inset-0 w-full h-full object-cover opacity-30" />
         <div className="absolute inset-0 bg-background/70" />
         <div className="container-x relative">
           <div className="max-w-2xl">
             <div className="text-base md:text-lg tracking-[0.3em] uppercase text-brass mb-4">Индивидуальный заказ</div>
-            <h2 className="font-serif text-4xl md:text-6xl mb-6 text-balance">Ремень с вашей символикой, инициалами и пряжкой</h2>
+            <h2 className="font-serif text-4xl md:text-6xl mb-6 text-balance">{cust.title}</h2>
             <p className="text-muted-foreground mb-10 max-w-lg">
-              Обсудим эскиз, подберём кожу и металл, согласуем тиснение. Делаем то, чего нет ни у кого, кроме вас.
+              {cust.text}
             </p>
             <Link to="/custom" className="inline-flex items-center gap-3 border border-brass px-7 py-3.5 uppercase tracking-[0.22em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-4xl font-sans">
-              Обсудить проект
+              {cust.cta}
               <span className="inline-block w-6 h-px bg-current" />
             </Link>
           </div>
@@ -198,13 +179,13 @@ function Index() {
 
       {/* FINAL CTA */}
       <section className="relative py-32 md:py-44 text-center overflow-hidden">
-        <img src={finalCtaBg} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+        <Media src={fin.media} alt="" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-background/60" />
         <div className="container-x relative">
-          <h2 className="font-serif text-5xl md:text-7xl text-bone text-balance">Изделия, которые подчеркивают ваш стиль.</h2>
+          <h2 className="font-serif text-5xl md:text-7xl text-bone text-balance">{fin.title}</h2>
           <div className="mt-10">
             <Link to="/catalog" className="inline-flex items-center gap-3 border-brass px-9 py-4 uppercase tracking-[0.25em] text-brass hover:bg-brass hover:text-brass-foreground transition-colors text-4xl border rounded-none opacity-85">
-              Открыть коллекцию
+              {fin.cta}
             </Link>
           </div>
         </div>

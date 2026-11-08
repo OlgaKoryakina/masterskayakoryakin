@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/hooks/useAuth";
 
 const nav = [
   { to: "/catalog", label: "Ремни" },
@@ -12,6 +13,7 @@ const nav = [
 ];
 
 export function Header() {
+  const { isAdmin } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { count } = useCart();
@@ -58,6 +60,11 @@ export function Header() {
               </span>
             )}
           </Link>
+          {isAdmin && (
+            <Link to="/admin" className="inline-flex items-center border border-brass text-brass px-3 py-2 text-[11px] tracking-[0.18em] uppercase hover:bg-brass hover:text-brass-foreground transition-colors">
+              Админка
+            </Link>
+          )}
           <Link
             to="/custom"
             className="hidden md:inline-flex items-center border border-brass text-brass-foreground bg-brass px-4 py-2 text-[12px] tracking-[0.18em] uppercase hover:bg-brass/90 transition-colors"

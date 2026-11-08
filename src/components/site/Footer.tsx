@@ -1,6 +1,9 @@
 import { Link } from "@tanstack/react-router";
+import { useContent } from "@/hooks/useContent";
 
 export function Footer() {
+  const c = useContent("footer");
+  const tg = c.telegram.replace(/^@/, "").replace(/^https?:\/\/t\.me\//, "");
   return (
     <footer className="mt-32 border-t border-border bg-coal">
       <div className="container-x py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -14,7 +17,7 @@ export function Footer() {
             </div>
           </div>
           <p className="mt-6 text-sm text-muted-foreground max-w-xs">
-            Кожаные ремни и латунные пряжки ручной работы. Ограниченные серии. Авторское тиснение.
+            {c.text}
           </p>
         </div>
 
@@ -44,15 +47,15 @@ export function Footer() {
             <li><Link to="/offer" className="text-muted-foreground hover:text-brass">Публичная оферта</Link></li>
           </ul>
           <div className="mt-6 space-y-1 text-sm text-muted-foreground">
-            <div>Telegram: <a href="https://t.me/zastegni" className="hover:text-brass">@zastegni</a></div>
-            <div>MAX: <a href="tel:+79063551224" className="hover:text-brass">+7 (906) 355-12-24</a></div>
+            <div>Telegram: <a href={`https://t.me/${tg}`} className="hover:text-brass">@{tg}</a></div>
+            <div>MAX: <a href={`tel:${c.max.replace(/[^+\d]/g, "")}`} className="hover:text-brass">{c.max}</a></div>
           </div>
         </div>
       </div>
       <div className="border-t border-border">
         <div className="container-x py-6 flex flex-col md:flex-row justify-between gap-2 text-xs text-muted-foreground">
           <span>© {new Date().getFullYear()} Мастерская Корякиных. Все права защищены.</span>
-          <span>Сайт не является публичной офертой.</span>
+          <span className="flex gap-6"><span>Сайт не является публичной офертой.</span><Link to="/auth" className="hover:text-brass">Вход для мастера</Link></span>
         </div>
       </div>
     </footer>

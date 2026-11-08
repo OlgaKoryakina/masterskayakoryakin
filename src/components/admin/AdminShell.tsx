@@ -32,6 +32,8 @@ export function AdminShell() {
             <span className="inline-flex items-center justify-center w-8 h-8 border border-brass/50 text-brass font-serif text-sm">МК</span>
             <span className="font-serif">Админка</span>
           </Link>
+          <Link to="/" className="mt-3 block text-xs text-muted-foreground hover:text-brass">← На сайт
+          </Link>
         </div>
         <nav className="flex-1 p-4 space-y-1 text-sm">
           {[
@@ -40,6 +42,7 @@ export function AdminShell() {
             { to: "/admin/reviews", l: "Отзывы" },
             { to: "/admin/products", l: "Товары" },
             { to: "/admin/content", l: "Контент" },
+            { to: "/admin/account", l: "Аккаунт" },
           ].map((n) => (
             <Link key={n.to} to={n.to} className="block px-3 py-2.5 text-muted-foreground hover:text-brass hover:bg-graphite rounded" activeProps={{ className: "text-brass bg-graphite" }} activeOptions={{ exact: n.to === "/admin" }}>
               {n.l}

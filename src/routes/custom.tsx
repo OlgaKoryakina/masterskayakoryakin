@@ -1,3 +1,4 @@
+import { useContent } from "@/hooks/useContent";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { seoHead } from "@/lib/seo";
@@ -31,6 +32,7 @@ const options = [
 ];
 
 function CustomPage() {
+  const page = useContent("custom_page");
   const [form, setForm] = useState({ name: "", phone: "", vk: "", messenger: "", message: "" });
   const [selected, setSelected] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
@@ -84,9 +86,9 @@ function CustomPage() {
     <SiteLayout>
       <section className="container-x py-16 md:py-24 max-w-4xl">
         <div className="text-base md:text-lg tracking-[0.3em] uppercase text-brass mb-4">Индивидуальный заказ</div>
-        <h1 className="font-serif text-5xl md:text-7xl mb-6 text-balance">Создадим изделие, которого нет ни у кого, кроме вас</h1>
+        <h1 className="font-serif text-5xl md:text-7xl mb-6 text-balance">{page.title}</h1>
         <p className="text-muted-foreground max-w-2xl text-lg leading-relaxed">
-          Обсудим эскиз, подберём кожу и металл, согласуем тиснение и пряжку. Каждое изделие — соавторство мастера и заказчика.
+          {page.text}
         </p>
       </section>
 

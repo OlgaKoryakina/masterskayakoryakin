@@ -1,22 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { seoHead } from "@/lib/seo";
+import { useContent } from "@/hooks/useContent";
+import { RichText } from "@/components/site/RichText";
 
 export const Route = createFileRoute("/offer")({
   head: () => seoHead({ title: "Публичная оферта", path: "/offer" }),
-  component: () => (
+  component: OfferPage,
+});
+
+function OfferPage() {
+  const c = useContent("offer");
+  return (
     <SiteLayout>
       <article className="container-x py-16 md:py-24 max-w-3xl">
         <div className="text-[11px] tracking-[0.3em] uppercase text-brass mb-4">Документы</div>
         <h1 className="font-serif text-4xl md:text-5xl mb-8">Публичная оферта</h1>
-        <div className="space-y-5 text-muted-foreground leading-relaxed">
-          <p>Информация, размещённая на сайте Мастерской Корякиных, носит исключительно справочный характер и не является публичной офертой в смысле статьи 437 ГК РФ.</p>
-          <p>Изображения изделий — фотографии готовых работ или работ в производстве. Поскольку каждое изделие изготавливается вручную, внешний вид итогового продукта может незначительно отличаться от изображения на сайте.</p>
-          <p>Стоимость и сроки изготовления каждого изделия согласовываются индивидуально с мастером после отправки заявки. Для индивидуальных заказов стоимость зависит от выбранных материалов, сложности тиснения и пряжки.</p>
-          <p>Оплата производится после согласования всех деталей: 50% — предоплата для начала работы, 50% — перед отправкой готового изделия. Для изделий из наличия — 100% оплата перед отправкой.</p>
-          <p>Возврат индивидуально изготовленных изделий не предусмотрен, поскольку они являются товаром, изготовленным по индивидуальному заказу (п. 4 ст. 26.1 Закона «О защите прав потребителей»).</p>
-        </div>
+        <RichText text={c.text} className="space-y-5 text-muted-foreground leading-relaxed" />
       </article>
     </SiteLayout>
-  ),
-});
+  );
+}

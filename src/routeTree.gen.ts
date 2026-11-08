@@ -23,6 +23,7 @@ import { Route as OfferRouteImport } from './routes/offer'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ShippingRouteImport } from './routes/shipping'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAccountRouteImport } from './routes/admin.account'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminRequestsRouteImport } from './routes/admin.requests'
@@ -99,6 +100,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAccountRoute = AdminAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminContentRoute = AdminContentRouteImport.update({
   id: '/content',
   path: '/content',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/offer': typeof OfferRoute
   '/privacy': typeof PrivacyRoute
   '/shipping': typeof ShippingRoute
+  '/admin/account': typeof AdminAccountRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/requests': typeof AdminRequestsRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/offer': typeof OfferRoute
   '/privacy': typeof PrivacyRoute
   '/shipping': typeof ShippingRoute
+  '/admin/account': typeof AdminAccountRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/requests': typeof AdminRequestsRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/offer': typeof OfferRoute
   '/privacy': typeof PrivacyRoute
   '/shipping': typeof ShippingRoute
+  '/admin/account': typeof AdminAccountRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/requests': typeof AdminRequestsRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/offer'
     | '/privacy'
     | '/shipping'
+    | '/admin/account'
     | '/admin/content'
     | '/admin/products'
     | '/admin/requests'
@@ -224,6 +234,7 @@ export interface FileRouteTypes {
     | '/offer'
     | '/privacy'
     | '/shipping'
+    | '/admin/account'
     | '/admin/content'
     | '/admin/products'
     | '/admin/requests'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/offer'
     | '/privacy'
     | '/shipping'
+    | '/admin/account'
     | '/admin/content'
     | '/admin/products'
     | '/admin/requests'
@@ -370,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/account': {
+      id: '/admin/account'
+      path: '/account'
+      fullPath: '/admin/account'
+      preLoaderRoute: typeof AdminAccountRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/content': {
       id: '/admin/content'
       path: '/content'
@@ -409,6 +428,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAccountRoute: typeof AdminAccountRoute
   AdminContentRoute: typeof AdminContentRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminRequestsRoute: typeof AdminRequestsRoute
@@ -417,6 +437,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAccountRoute: AdminAccountRoute,
   AdminContentRoute: AdminContentRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminRequestsRoute: AdminRequestsRoute,

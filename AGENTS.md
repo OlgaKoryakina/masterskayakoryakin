@@ -1,0 +1,1 @@
+- Editable site copy/media is defined in src/lib/content-schema.ts (one site_content row per section) and read via useContent(key); add new editable sections there so admin and pages stay in sync.
