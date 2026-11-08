@@ -175,9 +175,9 @@ function ContactButtons({ phone, messenger }: { phone?: string; messenger?: stri
           <MessageCircle className="w-3 h-3" /> Telegram
         </a>
       )}
-      {(m.includes("whatsapp") || !m) && (
-        <a href={`https://wa.me/${clean.replace("+", "")}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 border border-border px-3 py-1.5 text-xs hover:border-brass hover:text-brass">
-          <MessageCircle className="w-3 h-3" /> WhatsApp
+      {(m.includes("max") || m.includes("whatsapp") || !m) && (
+        <a href={`tel:${clean}`} className="flex items-center gap-1.5 border border-border px-3 py-1.5 text-xs hover:border-brass hover:text-brass">
+          <MessageCircle className="w-3 h-3" /> MAX
         </a>
       )}
     </div>

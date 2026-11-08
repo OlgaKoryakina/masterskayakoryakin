@@ -130,7 +130,7 @@ function CartPage() {
           <div className="text-[11px] tracking-[0.3em] uppercase text-brass">Контактные данные</div>
           <Field label="Имя *" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
           <Field label="​ВКонтакте *" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
-          <Field label="Telegram / WhatsApp" value={form.messenger} onChange={(v) => setForm({ ...form, messenger: v })} />
+          <Field label="Telegram / MAX" value={form.messenger} onChange={(v) => setForm({ ...form, messenger: v })} />
           <FieldArea label="Комментарий" value={form.message} onChange={(v) => setForm({ ...form, message: v })} />
           <FieldArea label="Пожелания по кастомизации" value={form.custom_notes} onChange={(v) => setForm({ ...form, custom_notes: v })} />
           <label className="flex gap-3 items-start text-xs text-muted-foreground cursor-pointer">
