@@ -13,8 +13,9 @@ export const Route = createFileRoute("/custom")({
 });
 
 const schema = z.object({
-  name: z.string().trim().min(2).max(100),
-  phone: z.string().trim().min(2, "Заполните контакт ВКонтакте").max(100),
+  name: z.string().trim().min(2, "Укажите имя").max(100),
+  phone: z.string().trim().min(5, "Укажите телефон").max(40),
+  vk: z.string().trim().max(100).optional(),
   messenger: z.string().trim().max(100).optional(),
   message: z.string().trim().max(2000).optional(),
 });
@@ -30,7 +31,7 @@ const options = [
 ];
 
 function CustomPage() {
-  const [form, setForm] = useState({ name: "", phone: "", messenger: "", message: "" });
+  const [form, setForm] = useState({ name: "", phone: "", vk: "", messenger: "", message: "" });
   const [selected, setSelected] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
   const [consent, setConsent] = useState(false);
@@ -56,8 +57,9 @@ function CustomPage() {
         if (!error) urls.push(path);
       }
       const { error } = await supabase.from("custom_requests").insert({
-        ...parsed.data,
-        messenger: parsed.data.messenger || null,
+        name: parsed.data.name,
+        phone: parsed.data.phone,
+        messenger: [parsed.data.vk && `VK: ${parsed.data.vk}`, parsed.data.messenger].filter(Boolean).join("; ") || null,
         message: parsed.data.message || null,
         details: { options: selected },
         reference_urls: urls,
@@ -102,8 +104,9 @@ function CustomPage() {
 
         <div className="grid sm:grid-cols-2 gap-6">
           <Field label="Имя *" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
-          <Field label="​ВКонтакте *" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+          <Field label="Телефон *" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
         </div>
+        <Field label="ВКонтакте" value={form.vk} onChange={(v) => setForm({ ...form, vk: v })} />
         <Field label="Telegram / MAX" value={form.messenger} onChange={(v) => setForm({ ...form, messenger: v })} />
         <FieldArea label="Опишите идею" value={form.message} onChange={(v) => setForm({ ...form, message: v })} />
 

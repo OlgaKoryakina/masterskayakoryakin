@@ -16,6 +16,7 @@ export const Route = createFileRoute("/cart")({
 const schema = z.object({
   name: z.string().trim().min(2, "Укажите имя").max(100),
   phone: z.string().trim().min(5, "Укажите телефон").max(40),
+  vk: z.string().trim().max(100).optional(),
   messenger: z.string().trim().max(100).optional(),
   message: z.string().trim().max(1000).optional(),
   custom_notes: z.string().trim().max(1000).optional(),
@@ -24,7 +25,7 @@ const schema = z.object({
 function CartPage() {
   const { items, remove, updateNote, clear } = useCart();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", phone: "", messenger: "", message: "", custom_notes: "" });
+  const [form, setForm] = useState({ name: "", phone: "", vk: "", messenger: "", message: "", custom_notes: "" });
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -45,7 +46,13 @@ function CartPage() {
     try {
       const { data: req, error } = await supabase
         .from("requests")
-        .insert({ ...parsed.data, messenger: parsed.data.messenger || null, message: parsed.data.message || null, custom_notes: parsed.data.custom_notes || null })
+        .insert({
+          name: parsed.data.name,
+          phone: parsed.data.phone,
+          messenger: [parsed.data.vk && `VK: ${parsed.data.vk}`, parsed.data.messenger].filter(Boolean).join("; ") || null,
+          message: parsed.data.message || null,
+          custom_notes: parsed.data.custom_notes || null,
+        })
         .select("id")
         .single();
       if (error) throw error;
@@ -129,7 +136,8 @@ function CartPage() {
         <form onSubmit={submit} className="lg:col-span-2 lg:sticky lg:top-28 lg:self-start space-y-5 border border-border p-8 bg-coal">
           <div className="text-[11px] tracking-[0.3em] uppercase text-brass">Контактные данные</div>
           <Field label="Имя *" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
-          <Field label="​ВКонтакте *" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+          <Field label="Телефон *" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+          <Field label="ВКонтакте" value={form.vk} onChange={(v) => setForm({ ...form, vk: v })} />
           <Field label="Telegram / MAX" value={form.messenger} onChange={(v) => setForm({ ...form, messenger: v })} />
           <FieldArea label="Комментарий" value={form.message} onChange={(v) => setForm({ ...form, message: v })} />
           <FieldArea label="Пожелания по кастомизации" value={form.custom_notes} onChange={(v) => setForm({ ...form, custom_notes: v })} />
