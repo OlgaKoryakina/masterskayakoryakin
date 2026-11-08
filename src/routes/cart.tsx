@@ -1,3 +1,4 @@
+import { notifyNewRequest } from "@/lib/telegram.functions";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { useCart } from "@/lib/cart";
@@ -66,6 +67,7 @@ function CartPage() {
           }))
         );
       }
+      notifyNewRequest({ data: { id: req.id, kind: "cart" } }).catch(() => {});
       clear();
       setDone(true);
     } catch (err: any) {

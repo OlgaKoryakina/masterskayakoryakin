@@ -3,6 +3,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client-safe";
 import { useAuth } from "@/hooks/useAuth";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { linkTelegramRecipients } from "@/lib/telegram.functions";
 
 export const Route = createFileRoute("/admin/account")({
   component: AccountPage,
@@ -52,6 +55,44 @@ function AccountPage() {
         <p className="text-xs text-muted-foreground">На новую почту придёт письмо — смена вступит в силу после подтверждения.</p>
         <button disabled={busy} className={btn}>Сменить почту</button>
       </form>
+      <TelegramBlock />
     </div>
+  );
+}
+
+function TelegramBlock() {
+  const qc = useQueryClient();
+  const link = useServerFn(linkTelegramRecipients);
+  const [busy, setBusy] = useState(false);
+  const { data } = useQuery({
+    queryKey: ["tg-recipients"],
+    queryFn: async () => (await supabase.from("telegram_recipients").select("*").order("created_at")).data ?? [],
+  });
+  return (
+    <section className="border border-border p-6 space-y-4">
+      <h2 className="font-serif text-2xl">Уведомления в Telegram</h2>
+      <ol className="text-sm text-muted-foreground list-decimal pl-5 space-y-1">
+        <li>Откройте бота <a href="https://t.me/MKapplicationBOT" target="_blank" rel="noreferrer" className="text-brass hover:underline">@MKapplicationBOT</a> и нажмите «Старт» (или напишите любое сообщение).</li>
+        <li>Вернитесь сюда и нажмите «Подключить».</li>
+      </ol>
+      <button disabled={busy} className={btn} onClick={async () => {
+        setBusy(true);
+        try { const r = await link(); toast.success(r.added ? `Подключено: ${r.added}` : "Сначала напишите боту, затем повторите"); qc.invalidateQueries({ queryKey: ["tg-recipients"] }); }
+        catch (e: any) { toast.error(e.message); } finally { setBusy(false); }
+      }}>{busy ? "…" : "Подключить"}</button>
+      {!!data?.length && (
+        <ul className="text-sm space-y-2">
+          {data.map((r: any) => (
+            <li key={r.chat_id} className="flex justify-between border-t border-border pt-2">
+              <span className="text-bone">{r.name || "Чат"}</span>
+              <button className="text-xs text-muted-foreground hover:text-destructive" onClick={async () => {
+                await supabase.from("telegram_recipients").delete().eq("chat_id", r.chat_id);
+                qc.invalidateQueries({ queryKey: ["tg-recipients"] });
+              }}>Отключить</button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }

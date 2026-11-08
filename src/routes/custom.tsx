@@ -1,4 +1,5 @@
 import { useContent } from "@/hooks/useContent";
+import { notifyNewRequest } from "@/lib/telegram.functions";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { seoHead } from "@/lib/seo";
@@ -58,7 +59,9 @@ function CustomPage() {
         const { error } = await supabase.storage.from("custom-references").upload(path, f);
         if (!error) urls.push(path);
       }
+      const reqId = crypto.randomUUID();
       const { error } = await supabase.from("custom_requests").insert({
+        id: reqId,
         name: parsed.data.name,
         phone: parsed.data.phone,
         messenger: [parsed.data.vk && `VK: ${parsed.data.vk}`, parsed.data.messenger].filter(Boolean).join("; ") || null,
@@ -67,6 +70,7 @@ function CustomPage() {
         reference_urls: urls,
       });
       if (error) throw error;
+      notifyNewRequest({ data: { id: reqId, kind: "custom" } }).catch(() => {});
       setDone(true);
     } catch (err: any) {
       toast.error("Не удалось отправить", { description: err.message });

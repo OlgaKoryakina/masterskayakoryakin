@@ -22,6 +22,7 @@ export type Database = {
           message: string | null
           messenger: string | null
           name: string
+          notified_at: string | null
           phone: string
           reference_urls: string[]
           status: Database["public"]["Enums"]["request_status"]
@@ -33,6 +34,7 @@ export type Database = {
           message?: string | null
           messenger?: string | null
           name: string
+          notified_at?: string | null
           phone: string
           reference_urls?: string[]
           status?: Database["public"]["Enums"]["request_status"]
@@ -44,6 +46,7 @@ export type Database = {
           message?: string | null
           messenger?: string | null
           name?: string
+          notified_at?: string | null
           phone?: string
           reference_urls?: string[]
           status?: Database["public"]["Enums"]["request_status"]
@@ -196,6 +199,7 @@ export type Database = {
           message: string | null
           messenger: string | null
           name: string
+          notified_at: string | null
           phone: string
           status: Database["public"]["Enums"]["request_status"]
         }
@@ -206,6 +210,7 @@ export type Database = {
           message?: string | null
           messenger?: string | null
           name: string
+          notified_at?: string | null
           phone: string
           status?: Database["public"]["Enums"]["request_status"]
         }
@@ -216,6 +221,7 @@ export type Database = {
           message?: string | null
           messenger?: string | null
           name?: string
+          notified_at?: string | null
           phone?: string
           status?: Database["public"]["Enums"]["request_status"]
         }
@@ -236,6 +242,24 @@ export type Database = {
           key?: string
           updated_at?: string
           value?: Json
+        }
+        Relationships: []
+      }
+      telegram_recipients: {
+        Row: {
+          chat_id: number
+          created_at: string
+          name: string | null
+        }
+        Insert: {
+          chat_id: number
+          created_at?: string
+          name?: string | null
+        }
+        Update: {
+          chat_id?: number
+          created_at?: string
+          name?: string | null
         }
         Relationships: []
       }
